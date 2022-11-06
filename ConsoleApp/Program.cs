@@ -1,1 +1,1 @@
-﻿Console.WriteLine("Hello, World!");
+﻿List<string> list = new List<string> { "Мама", "авТо", "гриБ", "Яблоко", "яБлоко", "ябЛоко", "яблОко", "яблоКо", "яблокО" };
