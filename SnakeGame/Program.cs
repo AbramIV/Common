@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-Title = "Snake Game";
+﻿Title = "Snake Game";
 bool play = true;
 bool hit = false;
 bool stepGone = true;

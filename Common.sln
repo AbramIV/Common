@@ -5,17 +5,17 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{FD6C2AC0-2D1F-438F-94DB-24B52841D513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingTasksExecutor", "TrainingTasksExecutor\TrainingTasksExecutor.csproj", "{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingTasksExecutor", "TrainingTasksExecutor\TrainingTasksExecutor.csproj", "{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "CommonLib\CommonLib.csproj", "{E597172A-963A-4425-80DF-09B035C266B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CommonLib\CommonLib.csproj", "{E597172A-963A-4425-80DF-09B035C266B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgresLib", "PostgresLib\PostgresLib.csproj", "{3DAF7A4E-2B7E-4BE9-AE7A-D30E57FFF2D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgresLib", "PostgresLib\PostgresLib.csproj", "{3DAF7A4E-2B7E-4BE9-AE7A-D30E57FFF2D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoasmDataLogger", "AutoasmDataLogger\AutoasmDataLogger.csproj", "{CB64DB64-2EDB-4486-98F8-8F92FF637BC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoasmDataLogger", "AutoasmDataLogger\AutoasmDataLogger.csproj", "{CB64DB64-2EDB-4486-98F8-8F92FF637BC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialLogger", "SerialLogger\SerialLogger.csproj", "{79459F99-AB44-4B34-8437-A9672A372B51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialLogger", "SerialLogger\SerialLogger.csproj", "{79459F99-AB44-4B34-8437-A9672A372B51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame", "SnakeGame\SnakeGame.csproj", "{C379308D-C9FD-48B1-A5D6-DEA31EFE3295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame", "SnakeGame\SnakeGame.csproj", "{C379308D-C9FD-48B1-A5D6-DEA31EFE3295}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

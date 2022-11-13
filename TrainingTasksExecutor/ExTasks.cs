@@ -8,7 +8,6 @@ internal class ExTasks
 
     static ExTasks() => Randomizer = new Random((int)DateTime.Now.Ticks);
 
-    #region common solution (without Linq, static methods of Array)
     /// <summary>
     /// The method is reverse words letters in array of char. Order of words will the same.
     /// </summary>
@@ -115,7 +114,5 @@ internal class ExTasks
 
         return (short)((Number % 10 * 10) + (Number / 10));
     }
-
-    #endregion
 }
 

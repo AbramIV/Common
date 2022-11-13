@@ -1,6 +1,6 @@
-﻿using static System.Console;
-using TrainingTasksExecutor;
+﻿using TrainingTasksExecutor;
+using static System.Console;
 
-ExTasks.ReverseWords();
+NumConverter.DecimalToHex(12349);
 
 ReadKey();
