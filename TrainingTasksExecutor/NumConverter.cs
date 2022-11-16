@@ -10,32 +10,26 @@ internal static class NumConverter
 { 
     internal static string DecimalToHex(int number)
     {
-        int whole = 16 * (number / 16);
-        int result = number - whole;
+        if (number < 16) return HexComparer(number);
 
-        if (result == 0)
-        {
-            // 1258
-        }
+        int value = number / 16;
+        int result = number - value * 16;
 
-        if (number / 16 >= 16)
-        {
-            return HexComparer(result) + DecimalToHex(whole);
-        }
+        if (value < 16) return HexComparer(value) + HexComparer(result);
 
-        return HexComparer(result).ToString();
+        return DecimalToHex(value) + HexComparer(result);
     }
 
     private static string HexComparer(int number)
     {
         return number switch
         {
-            10 => "A",
-            11 => "B",
-            12 => "C",
-            13 => "D",
-            14 => "E",
-            15 => "F",
+            10 => "a",
+            11 => "b",
+            12 => "c",
+            13 => "d",
+            14 => "e",
+            15 => "f",
             _ => number.ToString(),
         };
     }
