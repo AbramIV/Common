@@ -8,8 +8,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ObjectListView" Version="2.7.1.5" />
-  </ItemGroup>
-
 </Project>
