@@ -114,5 +114,64 @@ internal class ExTasks
 
         return (short)((Number % 10 * 10) + (Number / 10));
     }
+
+    internal static double? SmallestFullRoot(int[] unsortedArray)
+    {
+        int[] sortedArray = MergeSort(unsortedArray);
+
+        foreach (int num in sortedArray)
+        {
+            var sqrt = Math.Sqrt(num);
+
+            if ((sqrt - (int)sqrt) == 0) return sqrt;
+        }
+
+        return null;
+    }
+
+    internal static int[] MergeSort(int[] array)
+    {
+        if (array.Length == 1) return array;
+
+        int middleIndex = array.Length / 2;
+        int[] a = new int[array.Length - middleIndex];
+        int[] b = new int[middleIndex];
+
+        for (int i = 0; i < a.Length; i++)
+        {
+            a[i] = array[i];
+            if (i < b.Length) b[i] = array[i + a.Length];
+        }
+
+        return MergeArrays(MergeSort(a), MergeSort(b));
+    }
+
+    internal static int[] MergeArrays(int[] a, int[] b)
+    {
+        int[] mergedArray = new int[a.Length + b.Length];
+
+        int indexA = 0, indexB = 0;
+
+        for (int i = 0; i < mergedArray.Length; i++)
+        {
+            if (indexA < a.Length && indexB < b.Length)
+            {
+                mergedArray[i] = a[indexA] > b[indexB] ? a[indexA++] : b[indexB++];
+            }
+            else
+            {
+                mergedArray[i] = indexB < b.Length ? b[indexB++] : a[indexA++];
+            }
+        }
+
+        return mergedArray;
+    }
+
+    internal static bool IsSimpleNumber(int number)
+    {
+        for (int j = 2; j <= number / 2; j++)
+            if (number % j == 0) return false;
+        return true;
+    }
 }
 
