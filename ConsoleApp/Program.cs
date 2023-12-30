@@ -1,71 +1,15 @@
-﻿using static System.Console;
+﻿using ConsoleApp.Helpers;
 
-var xValues = new double[]
+List<EmailSender> emails = Enumerable.Range(0, 200).Select(n => new EmailSender()).ToList();
+var subject = "Logger test";
+var body = "Ыыыыыыыы";
+var recipients = "jorge.salazar@sks-textile.com;gerardo.nino@sks-textile.com";
+
+try
 {
-    1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
-    2005, 2006, 2007, 2008, 2009
-};
-var yValues = new double[]
+    Parallel.ForEach(emails, e => e.SendDirectly(subject, body, recipients));
+}
+catch (Exception ex)
 {
-    8669269, 8595500, 8484900, 8459800, 8427400, 8384700, 8340900, 8283200, 8230400, 8190900,
-    8149468, 7932984, 7845841, 7801273, 7761049, 7720000, 7679290, 7640238, 7606551,
-    7563710
-};
-
-double rSquared, intercept, slope;
-LinearRegression(xValues, yValues, out rSquared, out intercept, out slope);
-
-WriteLine($"R-squared = {rSquared}");
-WriteLine($"Intercept = {intercept}");
-WriteLine($"Slope = {slope}");
-
-var predictedValue = (slope * 2017) + intercept;
-WriteLine($"Prediction for 2017: {predictedValue}");
-
-ReadKey();
-
-/// <summary>
-/// Fits a line to a collection of (x,y) points.
-/// </summary>
-/// <param name="xVals">The x-axis values.</param>
-/// <param name="yVals">The y-axis values.</param>
-/// <param name="rSquared">The r^2 value of the line.</param>
-/// <param name="yIntercept">The y-intercept value of the line (i.e. y = ax + b, yIntercept is b).</param>
-/// <param name="slope">The slop of the line (i.e. y = ax + b, slope is a).</param>
-static void LinearRegression(double[] xVals, double[] yVals, out double rSquared, out double yIntercept, out double slope)
-{
-    if (xVals.Length != yVals.Length) throw new Exception("Input values should be with the same length.");
-
-    double sumOfX = 0;
-    double sumOfY = 0;
-    double sumOfXSq = 0;
-    double sumOfYSq = 0;
-    double sumCodeviates = 0;
-
-    for (var i = 0; i < xVals.Length; i++)
-    {
-        var x = xVals[i];
-        var y = yVals[i];
-        sumCodeviates += x * y;
-        sumOfX += x;
-        sumOfY += y;
-        sumOfXSq += x * x;
-        sumOfYSq += y * y;
-    }
-
-    var count = xVals.Length;
-    var ssX = sumOfXSq - ((sumOfX * sumOfX) / count);
-    var ssY = sumOfYSq - ((sumOfY * sumOfY) / count);
-
-    var rNumerator = (count * sumCodeviates) - (sumOfX * sumOfY);
-    var rDenom = (count * sumOfXSq - (sumOfX * sumOfX)) * (count * sumOfYSq - (sumOfY * sumOfY));
-    var sCo = sumCodeviates - ((sumOfX * sumOfY) / count);
-
-    var meanX = sumOfX / count;
-    var meanY = sumOfY / count;
-    var dblR = rNumerator / Math.Sqrt(rDenom);
-
-    rSquared = dblR * dblR;
-    yIntercept = meanY - ((sCo / ssX) * meanX);
-    slope = sCo / ssX;
+    File.WriteAllText(@"C:\Main\Test\logs.log.txt", ex.Message);
 }
