@@ -1,12 +1,16 @@
-﻿using System.Text;
+﻿using static System.Console;
+using System.Linq;
+using System.Text;
+using TrainingTasksExecutor.Disposing;
+using TrainingTasksExecutor.Inheritance;
 
 namespace TrainingTasksExecutor;
 
-internal class ExTasks
+internal class Exercises
 {
     private static readonly Random Randomizer;
 
-    static ExTasks() => Randomizer = new Random((int)DateTime.Now.Ticks);
+    static Exercises() => Randomizer = new Random((int)DateTime.Now.Ticks);
 
     /// <summary>
     /// The method is reverse words letters in array of char. Order of words will the same.
@@ -62,7 +66,7 @@ internal class ExTasks
         }
 
         foreach (var chr in newArray)
-            Console.Write(chr);
+            Write(chr);
     }
 
     /// <summary>
@@ -77,7 +81,7 @@ internal class ExTasks
 
         foreach (var number in array) if (number % 2 == 0) result += number;
 
-        Console.WriteLine(result);
+        WriteLine(result);
     }
 
     /// <summary>
@@ -108,11 +112,17 @@ internal class ExTasks
     /// <param name="Number">Initial number</param>
     /// <param name="Limitation">Only 10,100,1000.....</param>
     /// <returns>Reversed initial number</returns>
-    internal static short ReverseNumber(int Number, int Limitation)
+    internal static void ReverseNumber(int number)
     {
-        if (Number < Limitation) throw new Exception($"The initial number exceed limitation: {Limitation}");
+        string result = string.Empty;
 
-        return (short)((Number % 10 * 10) + (Number / 10));
+        while (number > 0)
+        {
+            result += number % 10;
+            number /= 10;
+        }
+
+        WriteLine(int.Parse(result));
     }
 
     internal static double? SmallestFullRoot(int[] unsortedArray)
@@ -173,5 +183,90 @@ internal class ExTasks
             if (number % j == 0) return false;
         return true;
     }
-}
 
+    internal static void ShuffleArray(int[] array)
+    {
+        var position = array.Length;
+
+        foreach (var item in array)
+            Write(item + " ");
+
+        while (position > 0)
+        {
+            var randomIndex = Random.Shared.Next(array.Length);
+
+            (array[randomIndex], array[--position]) = (array[position], array[randomIndex]);
+        }
+
+        WriteLine();
+
+        foreach (var item in array)
+            Write(item + " ");
+    }
+
+    internal static IEnumerable<int> FindDuplicatesInArrays(int[] a, int[] b) // result is [2, 6, 10, 15]
+    {
+        List<int> result = new();
+
+        foreach (int number in a)
+        {
+            if (b.Contains(number) && !result.Contains(number)) 
+                result.Add(number);
+        }
+
+        foreach (int number in b)
+        {
+            if (a.Contains(number) && !result.Contains(number))
+                result.Add(number);
+        }
+
+        return a.Intersect(b);
+
+        return result;
+    }
+
+    #region principals
+    internal static void InheritanceCalls()
+    {
+        //B obj1 = new A(); // impossible to cast child to parent
+        //obj1.Foo();
+
+        B obj2 = new B(); // will be called an overrided method of a child call B
+        obj2.Foo();
+
+        A obj3 = new B(); // will be called overrided method of a child class B
+        obj3.Foo();
+    }
+
+    internal static void DisposingCall()
+    {
+        var disposableClass = new DisposableClass();
+
+        using (disposableClass)
+            WriteLine(disposableClass.IsDisposed);
+
+        WriteLine(disposableClass.IsDisposed);
+    }
+
+    internal static void ActionCallig()
+    {
+        List<Action> actions = new();
+
+        for (var count = 0; count < 10; count++)
+            actions.Add(() => WriteLine(count));
+
+        foreach (var action in actions) // within call method gets copy of local variable stored in stack, so result is 10, 10, 10,...
+            action();
+    }
+
+    internal static void CastCalling()
+    {
+        int i = 1;
+        object obj = i;
+        ++i;
+        WriteLine(i);
+        WriteLine(obj);
+        WriteLine((short)obj); // impossible to downcast int to short since data loosing occurs
+    }
+    #endregion
+}

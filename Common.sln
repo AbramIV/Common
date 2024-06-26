@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame", "SnakeGame\Snak
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prompter", "Prompter\Prompter.csproj", "{9DF5FDD1-5B58-40CD-BC89-9778E7D345EB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocWorker", "DocWorker\DocWorker.csproj", "{BFA700C3-CFE8-4DC3-BA5B-3D202217EE9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppML", "AppML\AppML.csproj", "{675CA5EA-DD77-4FE3-AA7A-A61DE43D54D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{9DF5FDD1-5B58-40CD-BC89-9778E7D345EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF5FDD1-5B58-40CD-BC89-9778E7D345EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF5FDD1-5B58-40CD-BC89-9778E7D345EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA700C3-CFE8-4DC3-BA5B-3D202217EE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA700C3-CFE8-4DC3-BA5B-3D202217EE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA700C3-CFE8-4DC3-BA5B-3D202217EE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA700C3-CFE8-4DC3-BA5B-3D202217EE9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{675CA5EA-DD77-4FE3-AA7A-A61DE43D54D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{675CA5EA-DD77-4FE3-AA7A-A61DE43D54D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675CA5EA-DD77-4FE3-AA7A-A61DE43D54D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{675CA5EA-DD77-4FE3-AA7A-A61DE43D54D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
