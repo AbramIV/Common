@@ -2,6 +2,7 @@
 using PostgresLib.Types;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Text;
 using System.Timers;
 using static System.Console;
 
@@ -18,7 +19,7 @@ System.Timers.Timer Counter = new(200);
 Counter.AutoReset = true;
 Counter.Elapsed += CounterElapsed;
 Stopwatch sw = new();
-SerialPort uart = new(Port, 250000, Parity.None, 8, StopBits.One) { Handshake = Handshake.None };
+SerialPort uart = new(Port, 250000, Parity.None, 8, StopBits.One) { Handshake = Handshake.None, Encoding = Encoding.ASCII };
 uart.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 SignalHandler signalHandler = HandleConsoleSignal;
 ConsoleHelper.SetSignalHandler(signalHandler, true);

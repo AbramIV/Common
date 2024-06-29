@@ -28,5 +28,12 @@ internal class EmailSender : IDisposable
         outlookApp?.Quit();
         GC.Collect();
     }
+
+    // using
+    //List<EmailSender> emails = Enumerable.Range(0, 200).Select(n => new EmailSender()).ToList();
+    //var subject = "Logger test";
+    //var body = "Ыыыыыыыы";
+    //var recipients = "jorge.salazar@sks-textile.com;gerardo.nino@sks-textile.com";
+    //Parallel.ForEach(emails, e => e.SendDirectly(subject, body, recipients));
 }
 
