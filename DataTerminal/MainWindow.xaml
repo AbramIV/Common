@@ -3,29 +3,92 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DataTerminal"
+        xmlns:vm="clr-namespace:DataTerminal.ViewModels" xmlns:i="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Data Terminal" Height="535" Width="1000" FontSize="16" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:SerialViewModel/>
+    </Window.DataContext>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="33*"/>
-            <RowDefinition Height="401*"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="343*"/>
-                <RowDefinition Height="58*"/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="79*"/>
-                    <ColumnDefinition Width="81*"/>
-                </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="1" />
-            </Grid>
-            <Grid Grid.Row="1"/>
+
+        <Grid Background="#FFD2D2D2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="500*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Column="0" Margin="5,5,5,5" ItemsSource="{Binding Ports}" SelectedItem="{Binding Port.PortName}">
+                <i1:Interaction.Triggers>
+                    <i1:EventTrigger EventName="GotMouseCapture">
+                        <i1:InvokeCommandAction Command="{Binding RefreshPorts}"/>
+                    </i1:EventTrigger>
+                </i1:Interaction.Triggers>
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
+
+            <TextBox Grid.Column="1" Margin="5" TextAlignment="Center" Text="{Binding Port.BaudRate}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <Button Grid.Column="2" Margin="5" Command="{Binding Connection}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                <Setter Property="Background" Value="Pink"/>
+                                <Setter Property="Content" Value="Disconnect"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                <Setter Property="Background" Value="LightGreen"/>
+                                <Setter Property="Content" Value="Connect"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+            <TextBox Grid.Column="4" Margin="5" TextAlignment="Center"/>
+            <Button Grid.Column="5" Margin="5" Content="Send"/>
         </Grid>
-        <ToolBarPanel/>
+        
+        <Grid Grid.Row="1">
+            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        </Grid>
+
+        <TextBox Grid.Row="2" Text="{Binding Information}" Background="#FFD2D2D2"/>
 
 
     </Grid>
