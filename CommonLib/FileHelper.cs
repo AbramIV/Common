@@ -5,12 +5,25 @@ namespace CommonLib;
 
 public class FileHelper
 {
-    private readonly string path;
+    private readonly string directory;
+    private string file;
 
-    public FileHelper(string folder)
+    public FileHelper()
     {
-        path = Environment.CurrentDirectory.TrimEnd('\\') + @$"\{folder}";
+        GetNextPath(Environment.CurrentDirectory.TrimEnd('\\'));
     }
+
+    public FileHelper(string directoryPath)
+    {
+        directory = GetNextPath(Environment.CurrentDirectory.TrimEnd('\\') + @$"\{directoryPath}\");
+    }
+
+    public void SetDirectoryName()
+    {
+
+    }
+
+
 
     /// <summary>
     /// Create new filename if either already exist. Create directory.

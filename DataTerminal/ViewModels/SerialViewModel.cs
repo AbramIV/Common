@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommonLib;
+using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.IO.Ports;
 using System.Timers;
 using System.Windows.Input;
@@ -8,6 +10,8 @@ namespace DataTerminal.ViewModels;
 
 public class SerialViewModel : ViewModelBase
 {
+    private readonly FileHelper helper;
+
     private bool isConnected;
     public bool IsConnected
     {
@@ -41,17 +45,6 @@ public class SerialViewModel : ViewModelBase
         }
     }
 
-    private DataTable data;
-    public DataTable Data
-    {
-        get => data;
-        set
-        {
-            data = value;
-            OnPropertyChanged(nameof(Data));
-        }
-    }
-
     private SerialPort port;
     public SerialPort Port
     {
@@ -60,6 +53,17 @@ public class SerialViewModel : ViewModelBase
         {
             port = value;
             OnPropertyChanged(nameof(Port));
+        }
+    }
+
+    private DataTable data;
+    public DataTable Data
+    {
+        get => data;
+        set
+        {
+            data = value;
+            OnPropertyChanged(nameof(Data));
         }
     }
 
@@ -101,7 +105,6 @@ public class SerialViewModel : ViewModelBase
                     }
                     catch (Exception ex)
                     {
-                        //AddLog(ex.Message, Level.Error);
                         Information = ex.Message;
                     }
                 }
@@ -119,17 +122,6 @@ public class SerialViewModel : ViewModelBase
 
     private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
-        try
-        {
-            Task.Run(() =>
-            {
-                Information += ((SerialPort)sender).ReadExisting() + "\r\n";
-            });
-        }
-        catch (Exception ex)
-        {
-            //AddLog(ex.Message, Level.Error);
-            Information += ex.Message;
-        }
+        Task.Run(() => { File.AppendAllText("", ((SerialPort)sender).ReadExisting()); });
     }
 }
