@@ -85,7 +85,7 @@
         </Grid>
         
         <Grid Grid.Row="1">
-            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            <DataGrid ItemsSource="{Binding Data}"/>
         </Grid>
 
         <TextBox Grid.Row="2" Text="{Binding Information}" Background="#FFD2D2D2"/>

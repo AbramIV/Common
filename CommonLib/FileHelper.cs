@@ -3,8 +3,15 @@ using System.Text;
 
 namespace CommonLib;
 
-public static class FileHelper
+public class FileHelper
 {
+    private readonly string path;
+
+    public FileHelper(string folder)
+    {
+        path = Environment.CurrentDirectory.TrimEnd('\\') + @$"\{folder}";
+    }
+
     /// <summary>
     /// Create new filename if either already exist. Create directory.
     /// </summary>

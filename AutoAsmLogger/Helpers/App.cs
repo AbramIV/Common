@@ -1,11 +1,11 @@
-﻿using HelperLib.Enums;
-using HelperLib;
+﻿using CommonLib.Enums;
+using CommonLib;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using static HelperLib.ConsoleWorker;
+using static CommonLib.ConsoleHelper;
 
 namespace AutoAsmLogger.Helpers;
 
@@ -18,8 +18,7 @@ internal class App : IDisposable
     {
         Initialization(ConsoleColor.Green, Assembly.GetCallingAssembly().GetName().Name);
         SetSignalHandler(HandleConsoleSignal, true);
-        SimpleLogger.CurrentColor = ConsoleColor.Green;
-        SimpleLogger.PrintToConsoleOn();
+        SimpleLogger.SetMainConsoleForegroundColor(ConsoleColor.Green);
     }
 
     internal void Run(int portSpeed)

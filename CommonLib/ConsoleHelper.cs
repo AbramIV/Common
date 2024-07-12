@@ -1,25 +1,25 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace CommonLib
+namespace CommonLib;
+
+public delegate void SignalHandler(ConsoleSignal consoleSignal);
+
+public enum ConsoleSignal
 {
-    public delegate void SignalHandler(ConsoleSignal consoleSignal);
+    CtrlC = 0,
+    CtrlBreak = 1,
+    Close = 2,
+    LogOff = 5,
+    Shutdown = 6
+}
 
-    public enum ConsoleSignal
-    {
-        CtrlC = 0,
-        CtrlBreak = 1,
-        Close = 2,
-        LogOff = 5,
-        Shutdown = 6
-    }
+public static class ConsoleHelper
+{
+    static ConsoleHelper() { }
 
-    public static class ConsoleHelper
-    {
-        static ConsoleHelper() { }
+    [DllImport("Kernel32", EntryPoint = "SetConsoleCtrlHandler")]
+    public static extern bool SetSignalHandler(SignalHandler handler, bool add);
 
-        [DllImport("Kernel32", EntryPoint = "SetConsoleCtrlHandler")]
-        public static extern bool SetSignalHandler(SignalHandler handler, bool add);
-    }
 
     public readonly static int CurrentThreadId = Environment.CurrentManagedThreadId;
     public readonly static string CurrentDirectory = Environment.CurrentDirectory;
@@ -29,7 +29,6 @@ namespace CommonLib
     {
         SetColor(fontColor);
         SetTitle($"{title} [{CurrentUser}]");
-        SimpleLogger.PrintToConsoleOff();
         SimpleLogger.Write("Start.");
         SimpleLogger.Write($"Current directory: \"{CurrentDirectory}\".");
         SimpleLogger.Write($"Current user: \"{CurrentUser}\".");
@@ -55,7 +54,7 @@ namespace CommonLib
     public static void PrintLine(double message, ConsoleColor color)
         => PrintLine(message.ToString(), color);
 
-    public static void PrintLine(stringm message, ConsoleColor color)
+    public static void PrintLine(string message, ConsoleColor color)
     {
         var current = Console.ForegroundColor;
         Console.ForegroundColor = color;
@@ -73,4 +72,5 @@ namespace CommonLib
 
         if (args is null || args.Length < 1) return;
     }
+
 }

@@ -1,7 +1,4 @@
-﻿using DocWorker;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
-using System.Data;
+﻿using System.Data;
 using System.Data.OleDb;
 using System.Text;
 using System.Text.Json;

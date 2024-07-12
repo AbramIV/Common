@@ -113,7 +113,7 @@ public class SerialViewModel : ViewModelBase
 
     public SerialViewModel()
     {
-        Port = new SerialPort() { DataBits = 8, Parity = Parity.None, BaudRate = 250000 };
+        Port = new SerialPort() { DataBits = 8, Parity = Parity.None, BaudRate = 1000000 };
         IsConnected = false;
     }
 
