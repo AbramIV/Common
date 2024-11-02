@@ -1,17 +1,16 @@
 ﻿using System;
 using System.IO;
-using CommonLib.Enums;
 
 namespace CommonLib;
 
 public static class SimpleLogger
 {
     private static readonly string path;
-    private static ConsoleColor mainConsoleForegroundColor { get; set; } = ConsoleColor.Gray;
+    private static ConsoleColor MainConsoleForegroundColor { get; set; } = ConsoleColor.Gray;
 
     static SimpleLogger() => path = Environment.CurrentDirectory + @"\logs.log";
 
-    public static void SetMainConsoleForegroundColor(ConsoleColor color) => mainConsoleForegroundColor = color;
+    public static void SetMainConsoleForegroundColor(ConsoleColor color) => MainConsoleForegroundColor = color;
 
     public static void Write(string text, LogLevel level = LogLevel.Info)
     {
@@ -27,6 +26,15 @@ public static class SimpleLogger
         };
 
         Console.WriteLine($"{DateTime.Now} | {level} | {text}");
-        Console.ForegroundColor = mainConsoleForegroundColor;
+        Console.ForegroundColor = MainConsoleForegroundColor;
     }
+}
+
+public enum LogLevel
+{
+    Info,
+    Warning,
+    Debug,
+    Error,
+    Fatal
 }
