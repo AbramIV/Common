@@ -1,5 +1,4 @@
-﻿using CommonLib.Enums;
-using CommonLib;
+﻿using CommonLib;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
@@ -58,7 +57,7 @@ internal class App : IDisposable
         catch (Exception ex)
         {
             PrintLine(ex.Message, ConsoleColor.Red);
-            SimpleLogger.Write(ex.ToString(), LogLevels.Error);
+            SimpleLogger.Write(ex.ToString(), LogLevel.Error);
         }
     }
 
@@ -78,7 +77,7 @@ internal class App : IDisposable
 
     private void HandleConsoleSignal(ConsoleSignal consoleSignal)
     {
-        SimpleLogger.Write("Win32 event has been called.", LogLevels.Warning);
+        SimpleLogger.Write("Win32 event has been called.", LogLevel.Warning);
         Dispose();
     }
 }

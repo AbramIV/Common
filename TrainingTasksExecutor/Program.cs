@@ -14,11 +14,11 @@ using TrainingTasksExecutor.OOP;
 Console.Title = "Exercises";
 Console.ForegroundColor = ConsoleColor.Green;
 
-foreach (var line in File.ReadAllLines(@"C:\Main\Test\a.txt"))
-{
-    if (!line.Trim().ToUpper().Equals("МАГИСТРАТУРА"))
-        File.AppendAllText(@"C:\Main\Test\Faculties.txt", line + "\r\n");
-}
+int num = 1;
+Console.WriteLine($"0b{num:b}");
+
+int result = num << 2;
+Console.WriteLine($"0b{result:b}");
 
 Console.WriteLine("\nDone!");
 

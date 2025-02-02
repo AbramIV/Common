@@ -1,5 +1,4 @@
-﻿using HelperLib;
-using HelperLib.Enums;
+﻿using CommonLib;
 using System.IO.Ports;
 
 namespace AutoAsmLogger.Helpers;
@@ -41,15 +40,15 @@ internal class SerialPortsScanner : IDisposable
             try
             {
                 port.Open();
-                SimpleLogger.Write($"{name}: opened.", LogLevels.Debug);
+                SimpleLogger.Write($"{name}: opened.", LogLevel.Debug);
                 Thread.Sleep(3000);
                 port.DiscardInBuffer();
                 port.DiscardOutBuffer();
                 port.Write(request);
-                SimpleLogger.Write($"{name}: init request sent.", LogLevels.Debug);
+                SimpleLogger.Write($"{name}: init request sent.", LogLevel.Debug);
 
                 limiter.Start();
-                SimpleLogger.Write($"{name}: awaiting response.", LogLevels.Debug);
+                SimpleLogger.Write($"{name}: awaiting response.", LogLevel.Debug);
 
                 while (isAwaiting);
 
@@ -64,19 +63,19 @@ internal class SerialPortsScanner : IDisposable
             catch (ArgumentException ex)
             {
                 port.Close();
-                SimpleLogger.Write($"{name}: {ex.Message}", LogLevels.Error);
+                SimpleLogger.Write($"{name}: {ex.Message}", LogLevel.Error);
                 continue;
             }
             catch (TimeoutException ex)
             {
                 port.Close();
-                SimpleLogger.Write($"{name}: {ex.Message}", LogLevels.Warning);
+                SimpleLogger.Write($"{name}: {ex.Message}", LogLevel.Warning);
                 continue;
             }
             catch (Exception ex)
             {
                 port.Close();
-                SimpleLogger.Write($"{name}: {ex.Message}", LogLevels.Error);
+                SimpleLogger.Write($"{name}: {ex.Message}", LogLevel.Error);
                 continue;
             }
             finally
@@ -100,7 +99,7 @@ internal class SerialPortsScanner : IDisposable
         limiter?.Stop();
         var name = ((SerialPort)sender).PortName;
         var data = ((SerialPort)sender).ReadExisting();
-        SimpleLogger.Write($"{name} response: {data}.", LogLevels.Debug);
+        SimpleLogger.Write($"{name} response: {data}.", LogLevel.Debug);
         isCorrect = data.Trim().Equals(response);
         isAwaiting = false;
     }
