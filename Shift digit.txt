@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+unsigned int In = 178;
+unsigned int LSB = 0;
+unsigned int MSB = 0;
+
+int main()
+{
+    PrintDecAsBin("In ", In);
+
+    LSB = In & 0x000F;
+    MSB = In >> 4;
+    
+    PrintDecAsBin("LSB  ", LSB);
+    PrintDecAsBin("MSB  ", MSB);
+    
+    PrintDecAsBin("Inv  ", ~In);
+    
+    printf("\n\Done!");
+    
+    return 0;
+}
+ 
+void PrintDecAsBin(char *label, unsigned int in)
+{
+    printf(label);
+    
+    printf(" %d = ", in);
+    
+    for (int i = 7; i >= 0; i--)
+    {
+        if ((in & (1 << i)) > 0) printf("1");
+        else printf("0");
+    }
+    
+    printf("\n");
+}
