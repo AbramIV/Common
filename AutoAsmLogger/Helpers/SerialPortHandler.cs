@@ -1,5 +1,4 @@
-﻿using HelperLib.Enums;
-using HelperLib;
+﻿using CommonLib;
 using System.Diagnostics;
 using System.IO.Ports;
 using Counter = System.Timers.Timer;
@@ -41,11 +40,11 @@ internal class SerialPortHandler : IDisposable
 
             while (awaiting);
 
-            SimpleLogger.Write($"{port.PortName} closed or response timeout. ", LogLevels.Warning);
+            SimpleLogger.Write($"{port.PortName} closed or response timeout. ", LogLevel.Warning);
         }
         catch (Exception ex)
         {
-            SimpleLogger.Write($"{port.PortName}: {ex.Message}", LogLevels.Error);
+            SimpleLogger.Write($"{port.PortName}: {ex.Message}", LogLevel.Error);
         }
         finally
         {

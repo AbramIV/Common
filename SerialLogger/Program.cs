@@ -102,7 +102,7 @@ try
 }
 catch (Exception ex)
 {
-    SimpleLogger.Write(ex.Message, LogLevel.Error);
+    SimpleLogger.Write(ex.Message, CommonLib.LogLevel.Error);
     WriteLine(ex.Message, ConsoleColor.Red);
     ReadKey();
 }
