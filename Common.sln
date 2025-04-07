@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoAsmLogger", "AutoAsmLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatLib", "StatLib\StatLib.csproj", "{3562E515-0A3C-4B2C-BD38-FF9480831C12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerEntities", "LoggerEntities\LoggerEntities.csproj", "{9F971BE6-1141-48DA-BA24-BE49D7BD3358}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerEntities", "LoggerEntities\LoggerEntities.csproj", "{9F971BE6-1141-48DA-BA24-BE49D7BD3358}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSnake", "AutoSnake\AutoSnake.csproj", "{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
