@@ -8,7 +8,23 @@ namespace AutoSnake.Models;
 
 internal class Cell
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public char View { get; set; }
+    internal int X { get; private set; }
+    internal int Y { get; private set; }
+
+    internal char View { get; private set; }
+
+    internal Cell(int x, int y, char symbol) 
+    {
+        X = x;
+        Y = y;
+        View = symbol;
+    }
+
+    internal void SetPosition(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    internal void SetView(char view) => View = view;
 }
