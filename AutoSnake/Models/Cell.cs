@@ -8,6 +8,9 @@ namespace AutoSnake.Models;
 
 internal class Cell
 {
+    internal delegate void PositionChanged(int x, int y);
+    internal event PositionChanged Notify;
+
     internal int X { get; private set; }
     internal int Y { get; private set; }
 
@@ -20,10 +23,11 @@ internal class Cell
         View = symbol;
     }
 
-    internal void SetPosition(int x, int y)
+    internal virtual void SetPosition(int x, int y)
     {
         X = x;
         Y = y;
+        Notify?.Invoke(X, Y);
     }
 
     internal void SetView(char view) => View = view;
