@@ -8,12 +8,9 @@ namespace AutoSnake.Enums;
 
 internal enum Symbols
 {
-    Up = '˄',
-    Down = '˅',
-    Left = '<',
-    Right = '>',
-    Body = '*',
-    Tale = '#',
-    Food = '$',
+    Head =  '@',
+    Body =  '*',
+    Tale =  '#',
+    Food =  '$',
     Empty = ' '
 }

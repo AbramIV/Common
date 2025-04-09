@@ -3,27 +3,33 @@ using AutoSnake.Helpers;
 using AutoSnake.Models;
 using System.Timers;
 using static System.Console;
+using StepTimer = System.Timers.Timer;
 
 bool step = false;
 int count = 0;
-Drawer.SetColor(ConsoleColor.Green);
-System.Timers.Timer timer = new(100);
-Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
-Cell food = new((WindowWidth / 2) - 10, WindowHeight / 2, (char)Symbols.Food);
-Drawer.Draw(food);
 
-DrawField();
-CursorVisible = false;
-
+StepTimer timer = new(100);
 timer.Elapsed += Timer_Elapsed;
+
+Controller controller = new();
+Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
+Cell food = new((WindowWidth / 2) + 10, WindowHeight / 2, (char)Symbols.Food);
+
+Drawer.SetColor(ConsoleColor.Green);
+Drawer.DrawCell(snake.Head);
+Drawer.DrawCell(food);
+DrawField();
+
+snake.StepFinished += Snake_StepFinished;
+
 timer.Start();
 
-while(count < 30)
+while (count < 30)
 {
     if (step)
     {
-        snake.StepLeft();
-        if (snake.Head.X.Equals(food.X) && snake.Head.Y.Equals(food.Y)) snake.Eat();
+        snake.StepRight();
+
         count++;
         step = false;
     }
@@ -34,6 +40,8 @@ ReadKey();
 static void DrawField()
 {
     ForegroundColor = ConsoleColor.Red;
+
+    CursorVisible = false;
 
     for (int i = 0; i < WindowWidth - 1; i++)
     {
@@ -57,4 +65,13 @@ static void DrawField()
 void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 {
     step = true;
+}
+
+void Snake_StepFinished(int x, int y)
+{
+    Drawer.DrawCell(snake.Head);
+    Drawer.Erase(snake.Track);
+
+    if (snake.Head.X == food.X && snake.Head.Y == food.Y)
+        Drawer.DrawCell(snake.Eat());
 }

@@ -10,19 +10,14 @@ namespace AutoSnake.Helpers;
 
 internal static class Drawer
 {
-    internal static void Draw(Cell cell)
+    private static void Draw(int x, int y, char symbol = ' ')
     {
-        SetCursorPosition(cell.X, cell.Y);
-        Write(cell.View);
-    }
-
-    internal static void Draw(Cell cell, char symbol)
-    {
-        SetCursorPosition(cell.X, cell.Y);
+        SetCursorPosition(x, y);
         Write(symbol);
     }
 
-    internal static void Erase(Cell cell) => Draw(cell, ' ');
-
+    internal static void DrawCell(Cell cell) => Draw(cell.X, cell.Y, cell.View);
+    internal static void DrawSymbol(Cell cell, char symbol) => Draw(cell.X, cell.Y, symbol);
+    internal static void Erase(Cell cell) => Draw(cell.X, cell.Y);
     internal static void SetColor(ConsoleColor color) => ForegroundColor = color;
 }

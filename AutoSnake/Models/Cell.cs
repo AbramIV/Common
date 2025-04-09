@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoSnake.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,10 @@ namespace AutoSnake.Models;
 
 internal class Cell
 {
-    internal delegate void PositionChanged(int x, int y);
-    internal event PositionChanged Notify;
+    internal event PositionChanged_EventHandler PositionChanged;
 
     internal int X { get; private set; }
     internal int Y { get; private set; }
-
     internal char View { get; private set; }
 
     internal Cell(int x, int y, char symbol) 
@@ -23,11 +22,12 @@ internal class Cell
         View = symbol;
     }
 
-    internal virtual void SetPosition(int x, int y)
+    internal void SetPosition(int x, int y)
     {
         X = x;
         Y = y;
-        Notify?.Invoke(X, Y);
+        
+        PositionChanged?.Invoke(X, Y);
     }
 
     internal void SetView(char view) => View = view;
