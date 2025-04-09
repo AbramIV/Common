@@ -1,4 +1,5 @@
-﻿using AutoSnake.Helpers;
+﻿using AutoSnake.Enums;
+using AutoSnake.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,21 @@ internal class Cell
     internal int Y { get; private set; }
     internal char View { get; private set; }
 
-    internal Cell(int x, int y, char symbol) 
+    internal Cell(int x, int y, Views view) 
     {
         X = x;
         Y = y;
-        View = symbol;
+        View = (char)view;
     }
 
     internal void SetPosition(int x, int y)
     {
+        int x_old = X, y_old = Y;
+
         X = x;
         Y = y;
         
-        PositionChanged?.Invoke(X, Y);
+        PositionChanged?.Invoke(x_old, y_old);
     }
 
     internal void SetView(char view) => View = view;

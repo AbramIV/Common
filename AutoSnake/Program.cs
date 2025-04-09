@@ -13,22 +13,25 @@ timer.Elapsed += Timer_Elapsed;
 
 Controller controller = new();
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
-Cell food = new((WindowWidth / 2) + 10, WindowHeight / 2, (char)Symbols.Food);
+Cell food = new((WindowWidth / 2), WindowHeight / 2, Views.Food);
 
+Drawer.DrawField();
 Drawer.SetColor(ConsoleColor.Green);
-Drawer.DrawCell(snake.Head);
 Drawer.DrawCell(food);
-DrawField();
+Drawer.DrawCell(snake.Head);
 
 snake.StepFinished += Snake_StepFinished;
 
 timer.Start();
 
-while (count < 30)
+while (count < 40)
 {
     if (step)
     {
-        snake.StepRight();
+        if (count < 10) snake.StepRight();
+        if (count > 10 && count < 20) snake.StepUp();
+        if (count > 20 && count < 30) snake.StepLeft();
+        if (count > 30 && count < 40) snake.StepDown();
 
         count++;
         step = false;
@@ -37,31 +40,6 @@ while (count < 30)
 
 ReadKey();
 
-static void DrawField()
-{
-    ForegroundColor = ConsoleColor.Red;
-
-    CursorVisible = false;
-
-    for (int i = 0; i < WindowWidth - 1; i++)
-    {
-        SetCursorPosition(i, 0);
-        Write('-');
-        SetCursorPosition(i, WindowHeight - 1);
-        Write('-');
-    }
-
-    for (int i = 1; i < WindowHeight - 1; i++)
-    {
-        SetCursorPosition(0, i);
-        Write('|');
-        SetCursorPosition(WindowWidth - 1, i);
-        Write('|');
-    }
-
-    ForegroundColor = ConsoleColor.Green;
-}
-
 void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 {
     step = true;
@@ -69,9 +47,24 @@ void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 
 void Snake_StepFinished(int x, int y)
 {
-    Drawer.DrawCell(snake.Head);
-    Drawer.Erase(snake.Track);
-
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
-        Drawer.DrawCell(snake.Eat());
+    {
+        snake.Eat();
+        food = new((WindowWidth / 2) + 5, WindowHeight / 2, Views.Food);
+        Drawer.DrawCell(food);
+    }
+
+    Drawer.DrawCell(snake.Head);
+
+    if (snake.Neck is not null)
+    {
+        Drawer.DrawCell(snake.Neck);
+
+        //if (snake.Tail is not null)
+        //{
+        //    Drawer.DrawCell(snake.Tail);
+        //}
+    }
+
+    Drawer.Erase(snake.FirstTrack);
 }

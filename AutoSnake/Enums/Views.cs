@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoSnake.Enums;
 
-internal enum Symbols
+internal enum Views
 {
     Head =  '@',
     Body =  '*',

@@ -10,5 +10,5 @@ namespace AutoSnake.Models;
 
 internal class Head : Cell
 {
-    internal Head(int x, int y, char symbol) : base(x, y, symbol) { }
+    internal Head(int x, int y, Views view) : base(x, y, view) { }
 }

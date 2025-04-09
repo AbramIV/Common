@@ -14,35 +14,52 @@ internal class Snake
     internal event PositionChanged_EventHandler StepFinished;
 
     internal readonly Head Head;
+    internal Body Neck;
     internal readonly Queue<Cell> Body = new();
-    internal readonly Tail Tail;
-    internal  Cell Track { get; private set; }
+    internal Body Tail { get; private set; }
+    internal  Cell FirstTrack { get; private set; }
+    internal Cell LastTrack { get; private set; }
 
     internal Snake(int x, int y)
     {
-        Head = new Head(x, y, (char)Symbols.Head);
-        Body.Enqueue(Head);
+        Head = new Head(x, y, Views.Head);
         Head.PositionChanged += PositionChanged;
+        Body.Enqueue(Head);
     }
 
-    internal Cell Eat()
+    internal void Eat()
     {
-        if (Body?.Count > 1) Body.Last().PositionChanged -= PositionChanged;
-        else Head.PositionChanged -= PositionChanged;
+        if (Neck is null)
+        {
+            Neck = new(FirstTrack.X, FirstTrack.Y, Views.Body, Head);
+            Head.PositionChanged -= PositionChanged;
+            Neck.PositionChanged += PositionChanged;
+            Body.Enqueue(Neck);
+        }
 
-        Body?.Enqueue(new Body(Body.Last().X, Body.Last().Y, (char)Symbols.Body, Body.Last()));
-        Body.Last().PositionChanged += PositionChanged;
+        if (Tail is null)
+        {
+            Tail = new(FirstTrack.X, FirstTrack.Y, Views.Body, Neck);
+            Neck.PositionChanged -= PositionChanged;
+            Tail.PositionChanged += PositionChanged;
+            Body.Enqueue(Tail);
+        }
 
-        return Track;
+        //else Tail.PositionChanged -= PositionChanged;
+
+        ////Tail = new Body(Track.X, Track.Y, Views.Body, Body.Last());
+        //Tail.PositionChanged += PositionChanged;
+        //Body?.Enqueue(Tail);
     }
 
     internal void StepRight() => Step(Head.X + 1, Head.Y);
     internal void StepLeft() => Step(Head.X - 1, Head.Y);
-    internal void StepUp() => Step(Head.X, Head.Y + 1);
-    internal void StepDown() => Step(Head.X, Head.Y - 1);
+    internal void StepUp() => Step(Head.X, Head.Y - 1);
+    internal void StepDown() => Step(Head.X, Head.Y + 1);
     private void Step(int x, int y)
     {
-        Track = new(Body.Last().X, Body.Last().Y, Body.Last().View);
+        LastTrack = FirstTrack;
+        FirstTrack = new(Body.Last().X, Body.Last().Y, Views.Body);
         Head.SetPosition(x, y);
     }
 
