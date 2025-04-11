@@ -33,5 +33,5 @@ internal class Cell
         PositionChanged?.Invoke(x_old, y_old);
     }
 
-    internal void SetView(char view) => View = view;
+    internal void SetView(Views view) => View = (char)view;
 }

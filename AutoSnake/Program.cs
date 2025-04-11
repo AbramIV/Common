@@ -13,7 +13,7 @@ timer.Elapsed += Timer_Elapsed;
 
 Controller controller = new();
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
-Cell food = new((WindowWidth / 2), WindowHeight / 2, Views.Food);
+Cell food = new(WindowWidth / 2, WindowHeight / 2, Views.Food);
 
 Drawer.DrawField();
 Drawer.SetColor(ConsoleColor.Green);
@@ -47,24 +47,15 @@ void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 
 void Snake_StepFinished(int x, int y)
 {
+    bool eaten = false;
+
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
-    {
-        snake.Eat();
-        food = new((WindowWidth / 2) + 5, WindowHeight / 2, Views.Food);
-        Drawer.DrawCell(food);
-    }
+            eaten = snake.Eat();
 
     Drawer.DrawCell(snake.Head);
 
-    if (snake.Neck is not null)
-    {
-        Drawer.DrawCell(snake.Neck);
+    if (snake.Tail is not null)
+        Drawer.DrawCell(snake.Tail);
 
-        //if (snake.Tail is not null)
-        //{
-        //    Drawer.DrawCell(snake.Tail);
-        //}
-    }
-
-    Drawer.Erase(snake.FirstTrack);
+    if (!eaten) Drawer.Erase(snake.Track);
 }

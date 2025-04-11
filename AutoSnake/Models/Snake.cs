@@ -14,11 +14,9 @@ internal class Snake
     internal event PositionChanged_EventHandler StepFinished;
 
     internal readonly Head Head;
-    internal Body Neck;
     internal readonly Queue<Cell> Body = new();
     internal Body Tail { get; private set; }
-    internal  Cell FirstTrack { get; private set; }
-    internal Cell LastTrack { get; private set; }
+    internal  Cell Track { get; private set; }
 
     internal Snake(int x, int y)
     {
@@ -27,29 +25,22 @@ internal class Snake
         Body.Enqueue(Head);
     }
 
-    internal void Eat()
+    internal bool Eat()
     {
-        if (Neck is null)
-        {
-            Neck = new(FirstTrack.X, FirstTrack.Y, Views.Body, Head);
-            Head.PositionChanged -= PositionChanged;
-            Neck.PositionChanged += PositionChanged;
-            Body.Enqueue(Neck);
-        }
-
         if (Tail is null)
         {
-            Tail = new(FirstTrack.X, FirstTrack.Y, Views.Body, Neck);
-            Neck.PositionChanged -= PositionChanged;
+            Tail = new(Track.X, Track.Y, Views.Body, Head);
+            Tail.SetView(Views.Body);
+            Head.PositionChanged -= PositionChanged;
             Tail.PositionChanged += PositionChanged;
             Body.Enqueue(Tail);
         }
 
-        //else Tail.PositionChanged -= PositionChanged;
+        Tail = new Body(Track.X, Track.Y, Views.Body, Body.Last());
+        Tail.PositionChanged += PositionChanged;
+        Body?.Enqueue(Tail);
 
-        ////Tail = new Body(Track.X, Track.Y, Views.Body, Body.Last());
-        //Tail.PositionChanged += PositionChanged;
-        //Body?.Enqueue(Tail);
+        return true;
     }
 
     internal void StepRight() => Step(Head.X + 1, Head.Y);
@@ -58,8 +49,7 @@ internal class Snake
     internal void StepDown() => Step(Head.X, Head.Y + 1);
     private void Step(int x, int y)
     {
-        LastTrack = FirstTrack;
-        FirstTrack = new(Body.Last().X, Body.Last().Y, Views.Body);
+        Track = new(Body.Last().X, Body.Last().Y, Views.Empty);
         Head.SetPosition(x, y);
     }
 
