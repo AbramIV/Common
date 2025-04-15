@@ -11,16 +11,16 @@ int count = 0;
 StepTimer timer = new(100);
 timer.Elapsed += Timer_Elapsed;
 
-Controller controller = new();
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
-Cell food = new(WindowWidth / 2, WindowHeight / 2, Views.Food);
+FoodSpawner spawner = new(WindowWidth, WindowHeight);
+Cell food = spawner.Spawn(snake.Body);
 
 Drawer.DrawField();
 Drawer.SetColor(ConsoleColor.Green);
-Drawer.DrawCell(food);
-Drawer.DrawCell(snake.Head);
+Drawer.Draw(food);
+Drawer.Draw(snake.Head);
 
-snake.StepFinished += Snake_StepFinished;
+snake.PositionChanged += Snake_PositionChanged;
 
 timer.Start();
 
@@ -45,17 +45,18 @@ void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     step = true;
 }
 
-void Snake_StepFinished(int x, int y)
+void Snake_PositionChanged(object? sender, PositionChangedEventArgs e)
 {
-    bool eaten = false;
-
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
-            eaten = snake.Eat();
+    {
+        snake.Eat();
 
-    Drawer.DrawCell(snake.Head);
+        food = spawner.Spawn(snake.Body);
+        Drawer.Draw(food);
+    }
 
-    if (snake.Tail is not null)
-        Drawer.DrawCell(snake.Tail);
-
-    if (!eaten) Drawer.Erase(snake.Track);
+    Drawer.Draw(snake.Head);
+    if (snake.Body.Count == 3) Drawer.Draw(snake.Body.ElementAt(1));
+    Drawer.Draw(snake.Tail);
+    Drawer.Erase(snake.Track);
 }

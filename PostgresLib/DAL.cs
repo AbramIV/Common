@@ -2,6 +2,7 @@
 using PostgresLib.Types;
 using System.Configuration;
 using System.Data;
+using CommonLib;
 
 namespace PostgresLib;
 

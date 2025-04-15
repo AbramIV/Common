@@ -1,5 +1,4 @@
 ﻿using CommonLib;
-using PostgresLib.Types;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;

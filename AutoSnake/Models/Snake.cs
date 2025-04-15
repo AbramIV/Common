@@ -11,36 +11,30 @@ namespace AutoSnake.Models;
 
 internal class Snake
 {
-    internal event PositionChanged_EventHandler StepFinished;
+    internal event EventHandler<PositionChangedEventArgs>? PositionChanged;
 
-    internal readonly Head Head;
-    internal readonly Queue<Cell> Body = new();
-    internal Body Tail { get; private set; }
-    internal  Cell Track { get; private set; }
+    internal readonly Body Head;
+    internal readonly Queue<Body> Body = new();
+    internal Body? Tail { get; private set; }
+    internal  Cell? Track { get; private set; }
 
     internal Snake(int x, int y)
     {
-        Head = new Head(x, y, Views.Head);
+        Head = new(x, y, Views.Head);
         Head.PositionChanged += PositionChanged;
         Body.Enqueue(Head);
     }
 
-    internal bool Eat()
+    internal void Eat()
     {
-        if (Tail is null)
-        {
-            Tail = new(Track.X, Track.Y, Views.Body, Head);
-            Tail.SetView(Views.Body);
-            Head.PositionChanged -= PositionChanged;
-            Tail.PositionChanged += PositionChanged;
-            Body.Enqueue(Tail);
-        }
+        if (Tail is null) Head.PositionChanged -= PositionChanged;
+        else Body.Last().PositionChanged -= PositionChanged;
 
-        Tail = new Body(Track.X, Track.Y, Views.Body, Body.Last());
-        Tail.PositionChanged += PositionChanged;
-        Body?.Enqueue(Tail);
+        Tail = new(Track.X, Track.Y, Views.Body, Body.Last());
 
-        return true;
+        Body.Enqueue(Tail);
+
+        Track = null;
     }
 
     internal void StepRight() => Step(Head.X + 1, Head.Y);
@@ -50,11 +44,9 @@ internal class Snake
     private void Step(int x, int y)
     {
         Track = new(Body.Last().X, Body.Last().Y, Views.Empty);
-        Head.SetPosition(x, y);
+        Head.SetPosition(this, new() { X = x, Y = y });
+        OnPositionChanged(new() { X = Track.X, Y = Track.Y });
     }
 
-    private void PositionChanged(int x, int y)
-    {
-        StepFinished?.Invoke(x, y);
-    }
+    protected virtual void OnPositionChanged(PositionChangedEventArgs e) => PositionChanged?.Invoke(this, e);
 }

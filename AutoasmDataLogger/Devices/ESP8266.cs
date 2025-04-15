@@ -17,8 +17,8 @@ public class ESP8266 : Device
 
             if (string.IsNullOrEmpty(Name.Replace("\r\n", "").Trim()))
             {
-                SimpleLogger.Write($"Name is empty, assigned to {Thread.CurrentThread.ManagedThreadId}", LogLevel.Warning);
-                Name = Thread.CurrentThread.ManagedThreadId.ToString();
+                SimpleLogger.Write($"Name is empty, assigned to {Environment.CurrentManagedThreadId}", LogLevel.Warning);
+                Name = Environment.CurrentManagedThreadId.ToString();
             }
 
             SimpleLogger.Write($"Device {Name} connected.");

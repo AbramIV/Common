@@ -10,11 +10,11 @@ namespace AutoSnake.Models;
 
 internal class Cell
 {
-    internal event PositionChanged_EventHandler PositionChanged;
+    internal event EventHandler<PositionChangedEventArgs>? PositionChanged;
 
     internal int X { get; private set; }
     internal int Y { get; private set; }
-    internal char View { get; private set; }
+    internal char View { get; set; }
 
     internal Cell(int x, int y, Views view) 
     {
@@ -23,15 +23,25 @@ internal class Cell
         View = (char)view;
     }
 
-    internal void SetPosition(int x, int y)
+    internal void SetPosition(object? sender, PositionChangedEventArgs e)
     {
-        int x_old = X, y_old = Y;
+        int lastX = X;
+        int lastY = Y;
 
-        X = x;
-        Y = y;
-        
-        PositionChanged?.Invoke(x_old, y_old);
+        X = e.X;
+        Y = e.Y;
+
+        e.X = lastX;
+        e.Y = lastY;
+
+        OnPositionChanged(e);
     }
 
-    internal void SetView(Views view) => View = (char)view;
+    internal void SetPosition(int x,  int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    protected virtual void OnPositionChanged(PositionChangedEventArgs e) => PositionChanged?.Invoke(this, e);
 }
