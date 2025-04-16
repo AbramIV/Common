@@ -6,7 +6,7 @@ using static System.Console;
 using StepTimer = System.Timers.Timer;
 
 bool step = false;
-int count = 0;
+bool game = true;
 
 StepTimer timer = new(100);
 timer.Elapsed += Timer_Elapsed;
@@ -21,22 +21,49 @@ Drawer.Draw(food);
 Drawer.Draw(snake.Head);
 
 snake.PositionChanged += Snake_PositionChanged;
-
 timer.Start();
 
-while (count < 40)
+new Thread(() => 
 {
-    if (step)
+    while (game)
     {
-        if (count < 10) snake.StepRight();
-        if (count > 10 && count < 20) snake.StepUp();
-        if (count > 20 && count < 30) snake.StepLeft();
-        if (count > 30 && count < 40) snake.StepDown();
+        if (step)
+        {
+            snake.Step();
+            step = false;
+        }
+    }
+}).Start();
 
-        count++;
-        step = false;
+while (game)
+{
+    switch (ReadKey().Key)
+    {
+        case ConsoleKey.RightArrow:
+            if (snake.CurrentDirection != Direction.Left)
+                snake.SetDirection(Direction.Right);
+            break;
+        case ConsoleKey.LeftArrow:
+            if (snake.CurrentDirection != Direction.Right)
+                snake.SetDirection(Direction.Left);
+            break;
+        case ConsoleKey.UpArrow:
+            if (snake.CurrentDirection != Direction.Down)
+                snake.SetDirection(Direction.Up);
+            break;
+        case ConsoleKey.DownArrow:
+            if (snake.CurrentDirection != Direction.Up)
+                snake.SetDirection(Direction.Down);
+            break;
+        default:
+            game = false;
+            break;
     }
 }
+
+timer.Stop();
+SetCursorPosition(WindowWidth / 2 - 5, WindowHeight / 2);
+Write("GAME EXIT");
 
 ReadKey();
 
@@ -55,8 +82,12 @@ void Snake_PositionChanged(object? sender, PositionChangedEventArgs e)
         Drawer.Draw(food);
     }
 
-    Drawer.Draw(snake.Head);
-    if (snake.Body.Count == 3) Drawer.Draw(snake.Body.ElementAt(1));
-    Drawer.Draw(snake.Tail);
+    if (snake.Body.Count == 3) Drawer.DrawAll(snake.Body);
+    else
+    {
+        Drawer.Draw(snake.Head);
+        Drawer.Draw(snake.Tail);
+    }
+
     Drawer.Erase(snake.Track);
 }

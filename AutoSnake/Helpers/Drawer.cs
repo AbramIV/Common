@@ -13,7 +13,7 @@ internal static class Drawer
     internal static void DrawField()
     {
         CursorVisible = false;
-        ForegroundColor = ConsoleColor.Red;
+        ForegroundColor = ConsoleColor.Blue;
 
         for (int i = 0; i < WindowWidth - 1; i++)
         {
@@ -31,7 +31,6 @@ internal static class Drawer
             Write('|');
         }
     }
-
     internal static void Draw(Cell cell, char? symbol = null)
     {
         if (cell is null) return;
@@ -39,7 +38,12 @@ internal static class Drawer
         SetCursorPosition(cell.X, cell.Y);
         Write(symbol??cell.View);
     }
-    internal static void Erase(Cell cell) => Draw(cell, ' ');
+    internal static void DrawAll(IEnumerable<Cell> cells)
+    {
+        if (cells.Any()) return;
 
+        _ = cells.All(c => { Draw(c); return true; });
+    }
+    internal static void Erase(Cell cell) => Draw(cell, ' ');
     internal static void SetColor(ConsoleColor color) => ForegroundColor = color;
 }

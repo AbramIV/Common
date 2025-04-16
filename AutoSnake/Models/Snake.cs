@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,13 +17,17 @@ internal class Snake
     internal readonly Body Head;
     internal readonly Queue<Body> Body = new();
     internal Body? Tail { get; private set; }
-    internal  Cell? Track { get; private set; }
+    internal Cell? Track { get; private set; }
+
+    internal Direction CurrentDirection { get; private set; }
+    internal Direction LastDirection { get; private set; }
 
     internal Snake(int x, int y)
     {
         Head = new(x, y, Views.Head);
         Head.PositionChanged += PositionChanged;
         Body.Enqueue(Head);
+        CurrentDirection = Direction.Stop;
     }
 
     internal void Eat()
@@ -36,17 +41,34 @@ internal class Snake
 
         Track = null;
     }
-
-    internal void StepRight() => Step(Head.X + 1, Head.Y);
-    internal void StepLeft() => Step(Head.X - 1, Head.Y);
-    internal void StepUp() => Step(Head.X, Head.Y - 1);
-    internal void StepDown() => Step(Head.X, Head.Y + 1);
-    private void Step(int x, int y)
+    internal void Step()
     {
+        int x = Head.X, y = Head.Y;
+
+        if (CurrentDirection == Direction.Stop) return;
+
+        LastDirection = CurrentDirection;
+
+        switch (CurrentDirection)
+        {
+            case Direction.Up:
+                y--;
+                break;
+            case Direction.Down:
+                y++;
+                break;
+            case Direction.Left:
+                x--;
+                break;
+            case Direction.Right:
+                x++;
+                break;
+        }
+
         Track = new(Body.Last().X, Body.Last().Y, Views.Empty);
         Head.SetPosition(this, new() { X = x, Y = y });
         OnPositionChanged(new() { X = Track.X, Y = Track.Y });
     }
-
+    internal void SetDirection(Direction direction) => CurrentDirection = direction;
     protected virtual void OnPositionChanged(PositionChangedEventArgs e) => PositionChanged?.Invoke(this, e);
 }
