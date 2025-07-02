@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatLib
-{
-    internal static class Formatter
-    {
-        public static void ExtractEquation()
-        {
+namespace StatLib;
 
-        }
+internal static class Formatter
+{
+    public static void ExtractEquation()
+    {
+
     }
 }

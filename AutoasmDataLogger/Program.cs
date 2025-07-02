@@ -12,9 +12,6 @@ class Program
     {
         string address = args.Length > 0 && !string.IsNullOrEmpty(args[0]) ? args[0] : IP;
 
-        SimpleLogger.PrintToConsoleOn();
-        SimpleLogger.WriteToDatabaseOn();
-
         if (!IPAddress.TryParse(address, out IPAddress? ip))
         {
             SimpleLogger.Write("IP parse error", LogLevel.Error);

@@ -2,7 +2,7 @@
 using PostgresLib.Types;
 using System.Configuration;
 using System.Data;
-using CommonLib;
+//using CommonLib;
 
 namespace PostgresLib;
 
@@ -29,9 +29,9 @@ public static class DAL
         return await cmd.ExecuteNonQueryAsync();
     }
 
-    public async static Task<int> InsertLog(string message, LogLevel level = LogLevel.Info)
-    {
-        string sql = $"insert into logs (message,level) values (\'{message}\',\'{Enum.GetName(typeof(LogLevel), level)}\')";
-        return await ExecuteAnyAsync(sql);
-    }
+    //public async static Task<int> InsertLog(string message, LogLevel level = LogLevel.Info)
+    //{
+    //    string sql = $"insert into logs (message,level) values (\'{message}\',\'{Enum.GetName(typeof(LogLevel), level)}\')";
+    //    return await ExecuteAnyAsync(sql);
+    //}
 }
