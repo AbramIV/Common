@@ -144,18 +144,14 @@ public static class Maths
     /// <returns>Proportional value.</returns> 
     public static double ProportionalValue(double input, double inputMin, double inputMax, double outputMin, double outputMax)
     {
-        return (input * ((outputMax - outputMin) / (inputMax - inputMin))) - (((outputMax - outputMin) / (inputMax - inputMin)) * inputMin) + outputMin;
+        double ratio;
 
-        /* Test
-         * double inputMin = -10;
-         * double inputMax = 10;
-         * string signalLiteral = "V";
-         * double outputMin = -152;
-         * double outputMax = 132;
-         * string valueLiteral = "°C";
-         * 
-         * for (double i = inputMin; i <= inputMax; i++)
-         *     Console.WriteLine($"{i} {signalLiteral} = {Maths.ProportionalValue(i, inputMin, inputMax, outputMin, outputMax)} {valueLiteral}");
-         */
+        if (inputMin >= inputMax) throw new ArgumentException($"Value of \"inputMin\" = {inputMin} must be greater than \"inputMax\" = {inputMax}.");
+        if (outputMin >= outputMax) throw new ArgumentException($"Value of \"outputMin\" = {outputMin} must be greater than \"outputMax\" = {outputMax}.");
+        if (input < inputMin || input > inputMax) throw new ArgumentOutOfRangeException($"Value of \"input\" = {input} must be greater than \"inputMin\" = {inputMin} and less than \"{inputMax}\".");
+
+        ratio = (outputMax - outputMin) / (inputMax - inputMin);
+
+        return ratio * (input - inputMin) + outputMin;
     }
 }
