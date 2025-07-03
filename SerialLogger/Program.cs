@@ -34,7 +34,7 @@ if (!Directory.Exists(Path))
 while (Ports.Length < 1)
 {
     WriteLine("No available ports\nPress any key to refresh or 0 to exit...\n");
-    if (int.TryParse(Console.ReadLine(), out int zero) && zero == 0)
+    if (int.TryParse(ReadLine(), out int zero) && zero == 0)
     {
         SimpleLogger.Write("Win32 event has been called");
         sw.Stop();

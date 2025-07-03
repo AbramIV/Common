@@ -12,8 +12,6 @@ internal class Hint
 
     public string Text { get; set; }
 
-    public Hint() { }
-
     public Hint(string name, string text)
     {
         Name = name;

@@ -2,8 +2,8 @@
 
 public static class Transliteration
 {
-    private static readonly Dictionary<string, string> GOST = new Dictionary<string, string>(); //ГОСТ 16876-71
-    private static readonly Dictionary<string, string> ISO = new Dictionary<string, string>(); //ISO 9-95
+    private static readonly Dictionary<string, string> GOST = new(); //ГОСТ 16876-71
+    private static readonly Dictionary<string, string> ISO = new(); //ISO 9-95
 
     static Transliteration()
     {

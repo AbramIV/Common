@@ -127,25 +127,35 @@ public static class Maths
     }
 
     /// <summary>
-    /// Calculate proportional value according to signal
-    /// Sample:
-    /// Input 4..20 mA | 0..10 V | -10 V..10 V
-    /// Output 7 - 2153 °С | -152..132 °С
-    /// </summary>
-    /// <param name="minSignal">Minimum of input signal value</param>
-    /// <param name="maxSignal">Maximum of input signal value</param>
-    /// <param name="minValue">Minimum of measurable value</param>
-    /// <param name="maxValue">Maximum of measurable value</param>
-    /// <returns>Proportional value</returns>
-    public static double ProportionalValue(double input, double minSignal, double maxSignal, double minValue, double maxValue)
-    {
-        return ((maxValue-minValue) / maxSignal * input) + minValue;
-    }
-
-    /// <summary>
     /// Calculate factorial of number
     /// </summary>
     /// <param name="number"></param>
     /// <returns></returns>
     public static int Factorial(int number) => number < 1 ? 1 : number * Factorial(number - 1);
+
+    /// <summary>
+    /// Calculate proportional value according to input value with input and output scales.
+    /// </summary>
+    /// <param name="input">Input value from sensor.</param>
+    /// <param name="inputMin">Minimum of input value.</param>
+    /// <param name="inputMax">Maximum of input value.</param>
+    /// <param name="outputMin">Minimum of output value.</param>
+    /// <param name="outputMax">Maximum of output value.</param>
+    /// <returns>Proportional value.</returns> 
+    public static double ProportionalValue(double input, double inputMin, double inputMax, double outputMin, double outputMax)
+    {
+        return (input * ((outputMax - outputMin) / (inputMax - inputMin))) - (((outputMax - outputMin) / (inputMax - inputMin)) * inputMin) + outputMin;
+
+        /* Test
+         * double inputMin = -10;
+         * double inputMax = 10;
+         * string signalLiteral = "V";
+         * double outputMin = -152;
+         * double outputMax = 132;
+         * string valueLiteral = "°C";
+         * 
+         * for (double i = inputMin; i <= inputMax; i++)
+         *     Console.WriteLine($"{i} {signalLiteral} = {Maths.ProportionalValue(i, inputMin, inputMax, outputMin, outputMax)} {valueLiteral}");
+         */
+    }
 }
