@@ -4,25 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatLib.DigitalFilters
+namespace Calculator.DigitalFilters;
+
+public class RunningAverage : Filter
 {
-    public class RunningAverage : Filter
+    private readonly double[] results;
+    private int index = 0;
+    private double result;
+
+    public RunningAverage(int size)
     {
-        private readonly double[] results;
-        private int index = 0;
-        private double result;
+        results = new double[size];
+    }
 
-        public RunningAverage(int size)
-        {
-            results = new double[size];
-        }
-
-        public override double GetValue(double value, int round = 0)
-        {
-            result += value - results[index];
-            results[index] = value;
-            index = (index + 1) % results.Length;
-            return Math.Round(result / results.Length, round);
-        }
+    public override double GetValue(double value, int round = 0)
+    {
+        result += value - results[index];
+        results[index] = value;
+        index = (index + 1) % results.Length;
+        return Math.Round(result / results.Length, round);
     }
 }

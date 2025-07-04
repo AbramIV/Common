@@ -1,8 +1,8 @@
-﻿using AutoasmDataLogger.Devices;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
+using TcpServer.Devices;
 
-namespace AutoasmDataLogger;
+namespace TcpServer;
 
 internal class Server : IDisposable
 {

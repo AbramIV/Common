@@ -1,7 +1,7 @@
 ﻿using CommonLib;
 using System.IO.Ports;
 
-namespace AutoAsmLogger.Helpers;
+namespace SerialPortServer.Helpers;
 
 internal class SerialPortsScanner : IDisposable
 {

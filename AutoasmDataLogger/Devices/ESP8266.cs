@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace AutoasmDataLogger.Devices;
+namespace TcpServer.Devices;
 
 public class ESP8266 : Device
 {

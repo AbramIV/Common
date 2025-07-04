@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Exercise.JSON;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
-using System.Threading.Tasks;
-using System.Transactions;
-using TrainingTasksExecutor.JsonSamples;
 
-namespace TrainingTasksExecutor.Grouping;
+namespace Exercise.Grouping;
 
 internal class GroupingSamples
 {
-    private readonly static string input = "C:\\Main\\Repositories\\Common\\TrainingTasksExecutor\\JsonSamples\\Input.json";
-    private readonly static string output = "C:\\Main\\Repositories\\Common\\TrainingTasksExecutor\\JsonSamples\\Output.json";
-    private readonly static Guid[] workersIds = Enumerable.Range(1, 1000).Select(w => Guid.NewGuid()).ToArray();
+    private readonly static string input = "\\JSON\\Input.json";
+    private readonly static string output = "\\JSON\\Output.json";
+    private readonly static Guid[] workersIds = [.. Enumerable.Range(1, 1000).Select(w => Guid.NewGuid())];
     private readonly static int[] skillsIds = [37514, 37515, 37977];
     private readonly static Tuple<string, int>[][] groups = GetGroupsArrays(skillsIds);
 

@@ -1,6 +1,6 @@
 ﻿using CommonLib;
 
-namespace StatLib;
+namespace Calculator;
 
 public class Noisier
 {
@@ -11,12 +11,12 @@ public class Noisier
         inputs = values.ToArray();
     }
 
-    public IEnumerable<double> GetNoise(int periodMax, int periodMin = 1, int first = 0, int last = 0)
+    public IEnumerable<double> GetNoise(double[] inputs, int periodMax, int periodMin = 1, int first = 0, int last = 0)
     {
         List<double> noise = new();
 
         double value;
-        int period = Randomizer.GetInt(periodMin, periodMax);           
+        int period = Random.Shared.Next(periodMin, periodMax);           
         if (last.Equals(0)) last = inputs.Length;
 
         for (int i = 0; i < last; i++)
@@ -29,10 +29,10 @@ public class Noisier
 
             if (i > first) period += period < 0 ? 1 : -1;
 
-            value = inputs[i] - Randomizer.GetInt(0, (int)inputs[i]);
+            value = inputs[i] - Random.Shared.Next(0, (int)inputs[i]);
 
-            if (period.Equals(1)) period = Randomizer.GetInt(periodMin, periodMax) * -1;
-            if (period.Equals(-1)) period = Randomizer.GetInt(periodMin, periodMax);
+            if (period.Equals(1)) period = Random.Shared.Next(periodMin, periodMax) * -1;
+            if (period.Equals(-1)) period = Random.Shared.Next(periodMin, periodMax);
 
             if (period > 0)
             {

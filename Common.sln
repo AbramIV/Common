@@ -5,13 +5,13 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{FD6C2AC0-2D1F-438F-94DB-24B52841D513}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingTasksExecutor", "TrainingTasksExecutor\TrainingTasksExecutor.csproj", "{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise", "TrainingTasksExecutor\Exercise.csproj", "{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CommonLib\CommonLib.csproj", "{E597172A-963A-4425-80DF-09B035C266B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgresLib", "PostgresLib\PostgresLib.csproj", "{3DAF7A4E-2B7E-4BE9-AE7A-D30E57FFF2D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoasmDataLogger", "AutoasmDataLogger\AutoasmDataLogger.csproj", "{CB64DB64-2EDB-4486-98F8-8F92FF637BC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcpServer", "AutoasmDataLogger\TcpServer.csproj", "{CB64DB64-2EDB-4486-98F8-8F92FF637BC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialLogger", "SerialLogger\SerialLogger.csproj", "{79459F99-AB44-4B34-8437-A9672A372B51}"
 EndProject
@@ -21,11 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prompter", "Prompter\Prompt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTerminal", "DataTerminal\DataTerminal.csproj", "{AB0EA1A5-6851-42A2-97D8-B03166BBFEFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoAsmLogger", "AutoAsmLogger\AutoAsmLogger.csproj", "{92ACDBBD-E730-4A21-BC08-968B607CC075}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialPortServer", "AutoAsmLogger\SerialPortServer.csproj", "{92ACDBBD-E730-4A21-BC08-968B607CC075}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatLib", "StatLib\StatLib.csproj", "{3562E515-0A3C-4B2C-BD38-FF9480831C12}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerEntities", "LoggerEntities\LoggerEntities.csproj", "{9F971BE6-1141-48DA-BA24-BE49D7BD3358}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "StatLib\Calculator.csproj", "{3562E515-0A3C-4B2C-BD38-FF9480831C12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSnake", "AutoSnake\AutoSnake.csproj", "{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}"
 EndProject
@@ -79,10 +77,6 @@ Global
 		{3562E515-0A3C-4B2C-BD38-FF9480831C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3562E515-0A3C-4B2C-BD38-FF9480831C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3562E515-0A3C-4B2C-BD38-FF9480831C12}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F971BE6-1141-48DA-BA24-BE49D7BD3358}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU

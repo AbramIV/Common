@@ -20,8 +20,6 @@ Counter.Elapsed += CounterElapsed;
 Stopwatch sw = new();
 SerialPort uart = new(Port, 250000, Parity.None, 8, StopBits.One) { Handshake = Handshake.None, Encoding = Encoding.ASCII };
 uart.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-SignalHandler signalHandler = HandleConsoleSignal;
-ConsoleHelper.SetSignalHandler(signalHandler, true);
 SimpleLogger.Write("The application has been started");
 sw.Start();
 
@@ -131,17 +129,6 @@ void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
     {
         WriteLine(ex.Message, ConsoleColor.Red);
     }
-}
-
-void HandleConsoleSignal(ConsoleSignal consoleSignal)
-{
-    SimpleLogger.Write("Win32 event has been called");
-    uart.Close();
-    uart.Dispose();
-    SimpleLogger.Write($"{(uart.PortName.Equals("COM") ? "UART" : uart.PortName)} disposed");
-    sw.Stop();
-    SimpleLogger.Write($"Execution time: {sw.ElapsedMilliseconds} ms");
-    SimpleLogger.Write("The application has been terminated");
 }
 
 void CounterElapsed(object sender, ElapsedEventArgs e)

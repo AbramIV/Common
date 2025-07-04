@@ -1,10 +1,8 @@
 ﻿using static System.Console;
 using System.Linq;
 using System.Text;
-using TrainingTasksExecutor.Disposing;
-using TrainingTasksExecutor.Inheritance;
 
-namespace TrainingTasksExecutor;
+namespace Exercise;
 
 internal class Exercises
 {
@@ -133,7 +131,7 @@ internal class Exercises
         {
             var sqrt = Math.Sqrt(num);
 
-            if ((sqrt - (int)sqrt) == 0) return sqrt;
+            if (sqrt - (int)sqrt == 0) return sqrt;
         }
 
         return null;
@@ -226,27 +224,6 @@ internal class Exercises
     }
 
     #region principals
-    internal static void InheritanceCalls()
-    {
-        //B obj1 = new A(); // impossible to cast child to parent
-        //obj1.Foo();
-
-        B obj2 = new B(); // will be called an overrided method of a child call B
-        obj2.Foo();
-
-        A obj3 = new B(); // will be called overrided method of a child class B
-        obj3.Foo();
-    }
-
-    internal static void DisposingCall()
-    {
-        var disposableClass = new DisposableClass();
-
-        using (disposableClass)
-            WriteLine(disposableClass.IsDisposed);
-
-        WriteLine(disposableClass.IsDisposed);
-    }
 
     internal static void ActionCallig()
     {

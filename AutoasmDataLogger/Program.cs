@@ -1,7 +1,6 @@
-﻿using AutoasmDataLogger;
-using System.Net;
+﻿using System.Net;
 
-namespace Receiver;
+namespace TcpServer;
 
 class Program
 {

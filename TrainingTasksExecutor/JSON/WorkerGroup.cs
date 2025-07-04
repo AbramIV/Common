@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrainingTasksExecutor.JsonSamples;
+namespace Exercise.JSON;
 
 public class WorkerGroup
 {

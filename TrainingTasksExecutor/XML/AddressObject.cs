@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace TrainingTasksExecutor.XML;
+namespace Exercise.XML;
 
 [XmlRoot("OBJECT")]
 public class AddressObject

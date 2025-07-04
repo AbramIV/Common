@@ -1,5 +1,6 @@
 ﻿// Worker worker = new("293950142", "37977", "8f418962aa7bd9730c1cba15822286d3", 82, 82, 1631831285748, 1632175943570);
 
+namespace Exercise.JSON;
 
 public class Worker
 {

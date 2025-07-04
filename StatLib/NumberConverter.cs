@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrainingTasksExecutor;
+namespace Calculator;
 
-internal static class NumConverter
-{ 
+internal static class NumberConverter
+{
     internal static string DecimalToHex(int number)
     {
         if (number < 16) return HexComparer(number);

@@ -1,4 +1,4 @@
-﻿using CommonLib;
+﻿using Calculator;
 using static System.Console;
 
 ForegroundColor = ConsoleColor.Green;
@@ -14,7 +14,7 @@ string valueLiteral = "°C";
 try
 {
     for (double i = signalMin; i <= signalMax; i++)
-        WriteLine($"{i} {signalLiteral} = {Math.Round(Maths.ProportionalValue(i, signalMin, signalMax, valueMin, valueMax), 3)} {valueLiteral}");
+        WriteLine($"{i} {signalLiteral} = {Math.Round(Solver.ProportionalValue(i, signalMin, signalMax, valueMin, valueMax), 3)} {valueLiteral}");
 }
 catch(Exception ex)
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatLib;
+namespace Calculator;
 
 internal static class Formatter
 {

@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Timers;
 
-namespace AutoasmDataLogger.Devices;
+namespace TcpServer.Devices;
 
 public class Device
 {

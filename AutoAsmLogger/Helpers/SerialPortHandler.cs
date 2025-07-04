@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using Counter = System.Timers.Timer;
 
-namespace AutoAsmLogger.Helpers;
+namespace SerialPortServer.Helpers;
 
 internal class SerialPortHandler : IDisposable
 {
@@ -14,7 +14,8 @@ internal class SerialPortHandler : IDisposable
     private readonly Stopwatch watch;
 
     private bool awaiting = true;
-
+    private bool disposed;
+    
     public SerialPortHandler(SerialPort serialPort, int pollingInterval, string path) 
     {
         file = path;
@@ -78,5 +79,9 @@ internal class SerialPortHandler : IDisposable
         port.DataReceived -= Serial_DataReceived;
         port?.Close();
         port?.Dispose();
+
+        GC.SuppressFinalize(this);
     }
+
+    public bool IsDisposed { get { return disposed; } }
 }

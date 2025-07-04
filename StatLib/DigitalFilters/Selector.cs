@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatLib.DigitalFilters;
+namespace Calculator.DigitalFilters;
 
 public class Selector : Secant
 {

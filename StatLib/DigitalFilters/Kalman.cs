@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Calculator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatLib.DigitalFilters;
+namespace Calculator.DigitalFilters;
 
 public class Kalman : Filter
 {
