@@ -20,7 +20,7 @@ internal class Snake
     {
         Head = new(x, y, CellView.Head);
         Body = new([Head]);
-        Track = new(0, 0, CellView.Empty);
+        Track = new(0, 0);
         Direction = Direction.Stop;
         IsAlive = true;
     }

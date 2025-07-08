@@ -12,19 +12,22 @@ ReadKey();
 
 Border border = new(WindowWidth, WindowHeight);
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2); // snake start position
-Feeder feeder = new(WindowWidth, WindowHeight); // food generator
-Cell food = feeder.Spawn(snake.Body); 
-StepTimer timer = new(80); // snake step interval
-timer.Elapsed += Timer_Elapsed;
+Feeder feeder = new(WindowWidth, WindowHeight); // cell generator
+Navigator navigator = new(border, snake);
+StepTimer timer = new(200); // snake step interval
+Cell food = feeder.Spawn(snake.Body);
+var route = navigator.BuildRoute(food);
 
 DrawCells(border.Borders, ConsoleColor.Blue);
 DrawCell(snake.Head);
 DrawCell(food);
+DrawCells(route, ConsoleColor.Green);
 
+timer.Elapsed += Timer_Elapsed;
 snake.PositionChanged += Snake_PositionChanged;
 timer.Start();
 
-while (snake.IsAlive)
+while(snake.IsAlive)
 {
     switch (ReadKey().Key)
     {
@@ -75,6 +78,10 @@ void Snake_PositionChanged()
 
         food = feeder.Spawn(snake.Body);
         DrawCell(food);
+
+        EraseCells(route);
+        route = navigator.BuildRoute(food);
+        DrawCells(route, ConsoleColor.Green);
     }
 
     DrawCell(snake.Head);
@@ -94,7 +101,6 @@ static void DrawCells(IEnumerable<Cell> cells, ConsoleColor color)
 
     ForegroundColor = last;
 }
-
 static void DrawCell(Cell cell, char? symbol = null)
 {
     if (cell is null) return;
@@ -102,5 +108,5 @@ static void DrawCell(Cell cell, char? symbol = null)
     SetCursorPosition(cell.X, cell.Y);
     Write(symbol ?? (char)cell.View);
 }
-
 static void EraseCell(Cell cell) => DrawCell(cell, ' ');
+static void EraseCells(IEnumerable<Cell> cells) => _ = cells.All(c => { EraseCell(c); return true; });
