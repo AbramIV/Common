@@ -1,14 +1,13 @@
 ﻿using AutoSnake.Enums;
-using AutoSnake.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoSnake.Helpers;
+namespace AutoSnake.Models;
 
-internal class FoodSpawner
+internal class Feeder
 {
     private readonly int leftBorder;
     private readonly int rightBorder;
@@ -16,12 +15,12 @@ internal class FoodSpawner
     private readonly int bottomBorder;
     private readonly Random randomizer;
 
-    internal FoodSpawner(int fieldWidth, int fieldHeight) 
+    internal Feeder(int fieldWidth, int fieldHeight) 
     {
         leftBorder = 0;
         rightBorder = fieldWidth - 1;
         topBorder = 0;
-        bottomBorder =fieldHeight - 1;
+        bottomBorder = fieldHeight - 1;
         randomizer = new Random((int)DateTime.Now.Ticks);
     }
 
@@ -32,7 +31,7 @@ internal class FoodSpawner
         do
         {
             food = new(randomizer.Next(leftBorder + 1, rightBorder - 1),
-                       randomizer.Next(topBorder + 1, bottomBorder - 1), Views.Food);
+                       randomizer.Next(topBorder + 1, bottomBorder - 1), CellView.Food);
         }
         while (snake.Where(b => b.X.Equals(food.X) && b.Y.Equals(food.Y)).Any());
 

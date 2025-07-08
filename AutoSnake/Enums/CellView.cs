@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace AutoSnake.Enums;
 
-internal enum Views
+internal enum CellView
 {
+    Horizontal = '-',
+    Vertical = '|',
     Head =  '@',
     Body =  '*',
-    Tale =  '#',
+    Tail =  '#',
     Food =  '$',
     Empty = ' '
 }

@@ -1,55 +1,37 @@
 ﻿using AutoSnake.Enums;
-using AutoSnake.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoSnake.Models;
 
 internal class Snake
 {
-    internal event EventHandler<PositionChangedEventArgs>? PositionChanged;
+   internal event Action PositionChanged;
 
-    internal readonly Body Head;
-    internal readonly Queue<Body> Body = new();
-    internal Body? Tail { get; private set; }
+    internal readonly BodyCell Head;
+    internal BodyCell? Neck { get; private set; }
+    internal readonly Queue<BodyCell> Body;
+    internal BodyCell? Tail { get; private set; }
     internal Cell? Track { get; private set; }
-
-    internal Direction CurrentDirection { get; private set; }
-    internal Direction LastDirection { get; private set; }
+    internal Direction Direction { get; private set; }
+    internal bool IsAlive { get; private set; }
 
     internal Snake(int x, int y)
     {
-        Head = new(x, y, Views.Head);
-        Head.PositionChanged += PositionChanged;
-        Body.Enqueue(Head);
-        CurrentDirection = Direction.Stop;
+        Head = new(x, y, CellView.Head);
+        Body = new([Head]);
+        Track = new(0, 0, CellView.Empty);
+        Direction = Direction.Stop;
+        IsAlive = true;
     }
 
-    internal void Eat()
-    {
-        if (Tail is null) Head.PositionChanged -= PositionChanged;
-        else Body.Last().PositionChanged -= PositionChanged;
-
-        Tail = new(Track.X, Track.Y, Views.Body, Body.Last());
-
-        Body.Enqueue(Tail);
-
-        Track = null;
-    }
     internal void Step()
     {
-        int x = Head.X, y = Head.Y;
+        int x, y;
 
-        if (CurrentDirection == Direction.Stop) return;
+        x = Head.X;
+        y = Head.Y;
 
-        LastDirection = CurrentDirection;
-
-        switch (CurrentDirection)
+        switch (Direction)
         {
             case Direction.Up:
                 y--;
@@ -63,12 +45,43 @@ internal class Snake
             case Direction.Right:
                 x++;
                 break;
+            default:
+                return;
         }
 
-        Track = new(Body.Last().X, Body.Last().Y, Views.Empty);
-        Head.SetPosition(this, new() { X = x, Y = y });
-        OnPositionChanged(new() { X = Track.X, Y = Track.Y });
+        Track.SetPosition(Body.Last().X, Body.Last().Y);
+        Head.SetPosition(x, y);
+        PositionChanged?.Invoke();
     }
-    internal void SetDirection(Direction direction) => CurrentDirection = direction;
-    protected virtual void OnPositionChanged(PositionChangedEventArgs e) => PositionChanged?.Invoke(this, e);
+
+    internal void Eat()
+    {
+        if (Tail is null)
+        {
+            Tail = new(Track.X, Track.Y, CellView.Tail, Head);
+            Body.Enqueue(Tail);
+
+            return;
+        }
+
+        if (Neck is null)
+        {
+            Neck = Tail;
+            Neck.ChangeView(CellView.Body);
+        }
+
+        Tail.ChangeView(CellView.Body);
+        Tail = new(Track.X, Track.Y, CellView.Tail, Tail);
+        Body.Enqueue(Tail);
+    }
+
+    internal void SetDirection(Direction direction) => Direction = direction;
+
+    internal void Suicide() => IsAlive = false;
+}
+
+internal class PositionChangedEventArgs : EventArgs
+{
+    //internal int X { get; set; }
+    //internal int Y { get; set; }
 }

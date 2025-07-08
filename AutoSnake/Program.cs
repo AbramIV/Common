@@ -1,63 +1,54 @@
 ﻿using AutoSnake.Enums;
-using AutoSnake.Helpers;
 using AutoSnake.Models;
+using System.Drawing;
 using System.Timers;
 using static System.Console;
 using StepTimer = System.Timers.Timer;
 
-bool step = false;
-bool game = true;
+Title = "AutoSnake";
+CursorVisible = false;
+ForegroundColor = ConsoleColor.Magenta;
 
-StepTimer timer = new(100);
+Border border = new(WindowWidth, WindowHeight);
+Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2); // snake start position
+Feeder feeder = new(WindowWidth, WindowHeight); // food generator
+Cell food = feeder.Spawn(snake.Body); // 
+
+StepTimer timer = new(100); // snake step interval 50 ms
 timer.Elapsed += Timer_Elapsed;
 
-Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2);
-FoodSpawner spawner = new(WindowWidth, WindowHeight);
-Cell food = spawner.Spawn(snake.Body);
-
-Drawer.DrawField();
-Drawer.SetColor(ConsoleColor.Green);
-Drawer.Draw(food);
-Drawer.Draw(snake.Head);
+DrawCells(border.Borders, ConsoleColor.Blue);
+DrawCell(food);
+DrawCell(snake.Head);
 
 snake.PositionChanged += Snake_PositionChanged;
 timer.Start();
 
-new Thread(() => 
-{
-    while (game)
-    {
-        if (step)
-        {
-            snake.Step();
-            step = false;
-        }
-    }
-}).Start();
-
-while (game)
+while (snake.IsAlive)
 {
     switch (ReadKey().Key)
     {
         case ConsoleKey.RightArrow:
-            if (snake.CurrentDirection != Direction.Left)
+            if (snake.Direction != Direction.Left)
                 snake.SetDirection(Direction.Right);
             break;
         case ConsoleKey.LeftArrow:
-            if (snake.CurrentDirection != Direction.Right)
+            if (snake.Direction != Direction.Right)
                 snake.SetDirection(Direction.Left);
             break;
         case ConsoleKey.UpArrow:
-            if (snake.CurrentDirection != Direction.Down)
+            if (snake.Direction != Direction.Down)
                 snake.SetDirection(Direction.Up);
             break;
         case ConsoleKey.DownArrow:
-            if (snake.CurrentDirection != Direction.Up)
+            if (snake.Direction != Direction.Up)
                 snake.SetDirection(Direction.Down);
             break;
-        default:
-            game = false;
+        case ConsoleKey.Escape:
+            snake.Suicide();
             break;
+        default:
+            continue;
     }
 }
 
@@ -69,25 +60,43 @@ ReadKey();
 
 void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 {
-    step = true;
+    snake.Step();
 }
 
-void Snake_PositionChanged(object? sender, PositionChangedEventArgs e)
+void Snake_PositionChanged()
 {
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
     {
         snake.Eat();
 
-        food = spawner.Spawn(snake.Body);
-        Drawer.Draw(food);
+        food = feeder.Spawn(snake.Body);
+        DrawCell(food);
     }
 
-    if (snake.Body.Count == 3) Drawer.DrawAll(snake.Body);
-    else
-    {
-        Drawer.Draw(snake.Head);
-        Drawer.Draw(snake.Tail);
-    }
-
-    Drawer.Erase(snake.Track);
+    DrawCell(snake.Head);
+    DrawCell(snake.Neck);
+    DrawCell(snake.Tail);
+    EraseCell(snake.Track);
 }
+
+static void DrawCells(IEnumerable<Cell> cells, ConsoleColor color)
+{
+    ConsoleColor last = ForegroundColor;
+    ForegroundColor = color;
+
+    if (!cells.Any()) return;
+
+    _ = cells.All(c => { DrawCell(c); return true; });
+
+    ForegroundColor = last;
+}
+
+static void DrawCell(Cell cell, char? symbol = null)
+{
+    if (cell is null) return;
+
+    SetCursorPosition(cell.X, cell.Y);
+    Write(symbol ?? (char)cell.View);
+}
+
+static void EraseCell(Cell cell) => DrawCell(cell, ' ');
