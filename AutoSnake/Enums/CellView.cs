@@ -14,5 +14,6 @@ internal enum CellView
     Body =  '*',
     Tail =  '#',
     Food =  '$',
+    Break = 'X',
     Empty = ' '
 }

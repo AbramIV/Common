@@ -1,6 +1,5 @@
 ﻿using AutoSnake.Enums;
 using AutoSnake.Models;
-using System.Drawing;
 using System.Timers;
 using static System.Console;
 using StepTimer = System.Timers.Timer;
@@ -8,18 +7,19 @@ using StepTimer = System.Timers.Timer;
 Title = "AutoSnake";
 CursorVisible = false;
 ForegroundColor = ConsoleColor.Magenta;
+WriteLine("Set window size and press any key to start...");
+ReadKey();
 
 Border border = new(WindowWidth, WindowHeight);
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2); // snake start position
 Feeder feeder = new(WindowWidth, WindowHeight); // food generator
-Cell food = feeder.Spawn(snake.Body); // 
-
-StepTimer timer = new(100); // snake step interval 50 ms
+Cell food = feeder.Spawn(snake.Body); 
+StepTimer timer = new(80); // snake step interval
 timer.Elapsed += Timer_Elapsed;
 
 DrawCells(border.Borders, ConsoleColor.Blue);
-DrawCell(food);
 DrawCell(snake.Head);
+DrawCell(food);
 
 snake.PositionChanged += Snake_PositionChanged;
 timer.Start();
@@ -61,10 +61,14 @@ ReadKey();
 void Timer_Elapsed(object? sender, ElapsedEventArgs e)
 {
     snake.Step();
+
+    if (!snake.IsAlive) DrawCell(snake.Head, 'X');
 }
 
 void Snake_PositionChanged()
 {
+    if (border.Borders.Where(c => c.X == snake.Head.X && c.Y == snake.Head.Y).Any()) snake.Suicide();
+
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
     {
         snake.Eat();

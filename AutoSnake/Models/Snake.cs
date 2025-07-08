@@ -8,8 +8,9 @@ internal class Snake
    internal event Action PositionChanged;
 
     internal readonly BodyCell Head;
-    internal BodyCell? Neck { get; private set; }
     internal readonly Queue<BodyCell> Body;
+
+    internal BodyCell? Neck { get; private set; }
     internal BodyCell? Tail { get; private set; }
     internal Cell? Track { get; private set; }
     internal Direction Direction { get; private set; }
@@ -49,6 +50,12 @@ internal class Snake
                 return;
         }
 
+        if (Body.Where(c => c.X == x && c.Y == y).Any())
+        {
+            Suicide();
+            return;
+        }
+
         Track.SetPosition(Body.Last().X, Body.Last().Y);
         Head.SetPosition(x, y);
         PositionChanged?.Invoke();
@@ -77,7 +84,11 @@ internal class Snake
 
     internal void SetDirection(Direction direction) => Direction = direction;
 
-    internal void Suicide() => IsAlive = false;
+    internal void Suicide()
+    {
+        IsAlive = false;
+        Head.ChangeView(CellView.Break);
+    }
 }
 
 internal class PositionChangedEventArgs : EventArgs
