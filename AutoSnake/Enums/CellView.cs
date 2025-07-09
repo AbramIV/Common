@@ -16,5 +16,6 @@ internal enum CellView
     Food =  '$',
     Break = 'X',
     Route = '·',
-    Empty = ' '
+    Empty = ' ',
+    None = 'N'
 }

@@ -13,7 +13,7 @@ internal class Cell
     internal int Y { get; private protected set; }
     internal CellView View { get; private set; }
 
-    internal Cell(int x, int y, CellView view = CellView.Empty) 
+    internal Cell(int x, int y, CellView view = CellView.None) 
     {
         X = x;
         Y = y;

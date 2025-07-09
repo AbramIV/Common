@@ -13,51 +13,26 @@ internal class Snake
     internal BodyCell? Neck { get; private set; }
     internal BodyCell? Tail { get; private set; }
     internal Cell? Track { get; private set; }
-    internal Direction Direction { get; private set; }
     internal bool IsAlive { get; private set; }
 
     internal Snake(int x, int y)
     {
         Head = new(x, y, CellView.Head);
         Body = new([Head]);
-        Track = new(0, 0);
-        Direction = Direction.Stop;
+        Track = new(0, 0, CellView.Empty);
         IsAlive = true;
     }
 
-    internal void Step()
+    internal void Step(Cell cell)
     {
-        int x, y;
-
-        x = Head.X;
-        y = Head.Y;
-
-        switch (Direction)
-        {
-            case Direction.Up:
-                y--;
-                break;
-            case Direction.Down:
-                y++;
-                break;
-            case Direction.Left:
-                x--;
-                break;
-            case Direction.Right:
-                x++;
-                break;
-            default:
-                return;
-        }
-
-        if (Body.Where(c => c.X == x && c.Y == y).Any())
+        if (Body.Where(c => c.X == cell.X && c.Y == cell.Y).Any())
         {
             Suicide();
             return;
         }
 
         Track.SetPosition(Body.Last().X, Body.Last().Y);
-        Head.SetPosition(x, y);
+        Head.SetPosition(cell.X, cell.Y);
         PositionChanged?.Invoke();
     }
 
@@ -81,8 +56,6 @@ internal class Snake
         Tail = new(Track.X, Track.Y, CellView.Tail, Tail);
         Body.Enqueue(Tail);
     }
-
-    internal void SetDirection(Direction direction) => Direction = direction;
 
     internal void Suicide()
     {

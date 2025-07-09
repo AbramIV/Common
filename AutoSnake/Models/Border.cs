@@ -10,20 +10,26 @@ namespace AutoSnake.Models;
 
 internal class Border
 {
-    internal List<Cell> Borders = [];
+    internal List<Cell> BorderCells = [];
+
+    internal readonly int Width;
+    internal readonly int Height;
 
     internal Border(int width, int height)
     {
+        Width = width; 
+        Height = height;
+
         for (int i = 0; i < width - 1; i++)
         {
-            Borders.Add(new(i, 0, CellView.Horizontal));
-            Borders.Add(new(i, height - 1, CellView.Horizontal));
+            BorderCells.Add(new(i, 0, CellView.Horizontal));
+            BorderCells.Add(new(i, height - 1, CellView.Horizontal));
         }
 
         for (int i = 1; i < height - 1; i++)
         {
-            Borders.Add(new(0, i, CellView.Vertical));
-            Borders.Add(new(width - 1, i, CellView.Vertical));
+            BorderCells.Add(new(0, i, CellView.Vertical));
+            BorderCells.Add(new(width - 1, i, CellView.Vertical));
         }
     }
 }

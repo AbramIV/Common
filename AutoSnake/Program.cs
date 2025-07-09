@@ -9,68 +9,37 @@ CursorVisible = false;
 ForegroundColor = ConsoleColor.Magenta;
 WriteLine("Set window size and press any key to start...");
 ReadKey();
+Clear();
 
 Border border = new(WindowWidth, WindowHeight);
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2); // snake start position
 Feeder feeder = new(WindowWidth, WindowHeight); // cell generator
-Navigator navigator = new(border, snake);
-StepTimer timer = new(200); // snake step interval
+Navigator navigator = new(new(1, 1), new(border.Width-2, border.Height-2), snake);
 Cell food = feeder.Spawn(snake.Body);
-var route = navigator.BuildRoute(food);
+List<Cell>? route = navigator.Navigate(food); //.GetRoute(food);
+snake.PositionChanged += Snake_PositionChanged;
+int stepNumber = 0;
 
-DrawCells(border.Borders, ConsoleColor.Blue);
+DrawCells(border.BorderCells, ConsoleColor.Blue);
 DrawCell(snake.Head);
 DrawCell(food);
 DrawCells(route, ConsoleColor.Green);
 
-timer.Elapsed += Timer_Elapsed;
-snake.PositionChanged += Snake_PositionChanged;
-timer.Start();
-
-while(snake.IsAlive)
+while (snake.IsAlive)
 {
-    switch (ReadKey().Key)
-    {
-        case ConsoleKey.RightArrow:
-            if (snake.Direction != Direction.Left)
-                snake.SetDirection(Direction.Right);
-            break;
-        case ConsoleKey.LeftArrow:
-            if (snake.Direction != Direction.Right)
-                snake.SetDirection(Direction.Left);
-            break;
-        case ConsoleKey.UpArrow:
-            if (snake.Direction != Direction.Down)
-                snake.SetDirection(Direction.Up);
-            break;
-        case ConsoleKey.DownArrow:
-            if (snake.Direction != Direction.Up)
-                snake.SetDirection(Direction.Down);
-            break;
-        case ConsoleKey.Escape:
-            snake.Suicide();
-            break;
-        default:
-            continue;
-    }
+    snake.Step(route[stepNumber++]);
+
+    Thread.Sleep(100);
 }
 
-timer.Stop();
 SetCursorPosition(WindowWidth / 2 - 5, WindowHeight / 2);
-Write("GAME EXIT");
+Write("GAME OVER");
 
 ReadKey();
 
-void Timer_Elapsed(object? sender, ElapsedEventArgs e)
-{
-    snake.Step();
-
-    if (!snake.IsAlive) DrawCell(snake.Head, 'X');
-}
-
 void Snake_PositionChanged()
 {
-    if (border.Borders.Where(c => c.X == snake.Head.X && c.Y == snake.Head.Y).Any()) snake.Suicide();
+    if (border.BorderCells.Where(c => c.X == snake.Head.X && c.Y == snake.Head.Y).Any()) snake.Suicide();
 
     if (snake.Head.X == food.X && snake.Head.Y == food.Y)
     {
@@ -79,9 +48,9 @@ void Snake_PositionChanged()
         food = feeder.Spawn(snake.Body);
         DrawCell(food);
 
-        EraseCells(route);
-        route = navigator.BuildRoute(food);
+        route = navigator.Navigate(food);
         DrawCells(route, ConsoleColor.Green);
+        stepNumber = 0;
     }
 
     DrawCell(snake.Head);
@@ -103,10 +72,23 @@ static void DrawCells(IEnumerable<Cell> cells, ConsoleColor color)
 }
 static void DrawCell(Cell cell, char? symbol = null)
 {
-    if (cell is null) return;
+    if (cell is null || cell.View == CellView.None) return;
 
     SetCursorPosition(cell.X, cell.Y);
     Write(symbol ?? (char)cell.View);
 }
 static void EraseCell(Cell cell) => DrawCell(cell, ' ');
 static void EraseCells(IEnumerable<Cell> cells) => _ = cells.All(c => { EraseCell(c); return true; });
+
+static void Test()
+{
+    int width = WindowWidth - 2;
+    int height = WindowHeight - 2;
+
+    for (int i = 1; i <= width;  i++)
+        for (int j = 1; j <= height; j++)
+        {
+            SetCursorPosition(i, j);
+            Write("#");
+        }
+}
