@@ -13,26 +13,20 @@ namespace AutoSnake.Models;
 
 internal class Navigator
 {
+    private readonly Border border;
     private readonly Snake snake;
-    private readonly Cell begin;
-    private readonly Cell finish;
-    private readonly int width;
-    private readonly int height;
     private readonly int[][] directions =
     [
-        [0, 1],  // Up
-        [1, 0],  // Right
-        [0, -1], // Down
-        [-1, 0]  // Left
+        [0, 1],
+        [1, 0],
+        [0, -1],
+        [-1, 0]
     ];
 
-    internal Navigator(Cell fieldBeginCell, Cell fieldEndCell, Snake currentSnake)
+    internal Navigator(Border currentBorder, Snake currentSnake)
     {
-        begin = fieldBeginCell;
-        finish = fieldEndCell;
+        border = currentBorder;
         snake = currentSnake;
-        width = finish.X;
-        height = finish.Y;
     }
 
     internal List<Cell> GetRoute(Cell cell)
@@ -56,22 +50,13 @@ internal class Navigator
         return route;
     }
 
-    internal List<Cell> Navigate1(Cell food)
-    {
-        List<Cell> route = [];
-
-        return route;
-    }
-
     internal List<Cell> Navigate(Cell end)
     {
-        Cell start = snake.Head;
-        var queue = new Queue<Cell>();
-        var visited = new bool[width, height];
+        var queue = new Queue<Cell>([snake.Head]);
+        var visited = new bool[border.Width, border.Height];
         var parentMap = new Dictionary<Cell, Cell>();
 
-        queue.Enqueue(start);
-        visited[start.X, start.Y] = true;
+        visited[snake.Head.X, snake.Head.Y] = true;
 
         while (queue.Count > 0)
         {
@@ -82,31 +67,72 @@ internal class Navigator
 
             foreach (var dir in directions)
             {
-                int nx = current.X + dir[0];
-                int ny = current.Y + dir[1];
+                int x = current.X + dir[0];
+                int y = current.Y + dir[1];
 
-                if (nx >= 1 && nx < width && ny >= 1 && ny < height && !visited[nx, ny])
+                if (border.BorderCells.Where(c => c.X == x && c.Y == y).Any()) continue;
+                if (snake.Body.Where(c => c.X == x && c.Y == y).Any()) continue;
+
+                if (!visited[x, y])
                 {
-                    var neighbor = new Cell(nx, ny);
+                    var neighbor = new Cell(x, y);
                     queue.Enqueue(neighbor);
-                    visited[nx, ny] = true;
+                    visited[x, y] = true;
                     parentMap[neighbor] = current;
                 }
             }
         }
 
-        // Reconstruct the path
         var path = new List<Cell>();
-        if (!parentMap.Where(kvp => kvp.Key.X == end.X && kvp.Key.Y == end.Y).Any() && !(start.X == end.X && start.Y == end.Y))
-            return path; // No path found
+        if (!parentMap.Where(kvp => kvp.Key.X == end.X && kvp.Key.Y == end.Y).Any() && !(snake.Head.X == end.X && snake.Head.Y == end.Y))
+            return path;
 
-        for (var step = end; !(step.X == start.X && step.Y == start.Y); step = parentMap.Where(kvp => kvp.Key.X == step.X && kvp.Key.Y == step.Y).FirstOrDefault().Value)
+        for (var step = end; !(step.X == snake.Head.X && step.Y == snake.Head.Y); step = parentMap.Where(kvp => kvp.Key.X == step.X && kvp.Key.Y == step.Y).FirstOrDefault().Value)
             path.Add(step);
 
         path.Reverse();
 
-        foreach(var p in path) p.ChangeView(CellView.Route);
+        foreach (var p in path) p.ChangeView(CellView.Route);
+        path.Last().ChangeView(CellView.None);
 
         return path;
+    }
+
+    internal List<Cell> Navigate1(Cell end)
+    {
+        (int, int)[] directions =
+        [
+            (0, 1),
+            (1, 0),
+            (0, -1),
+            (-1, 0)
+        ];
+        var queue = new Queue<Cell>([snake.Head]);
+        var visited = new List<Cell>();
+        var map = new Dictionary<Cell, Cell>();
+        var route = new List<Cell>();
+
+        while (queue.Count > 0)
+        {
+            Cell cell = queue.Dequeue();
+
+            if (cell.X == end.X && cell.Y == end.Y) break;
+
+            foreach (var direction in directions)
+            {
+                int x = cell.X + direction.Item1;
+                int y = cell.Y + direction.Item2;
+
+                if (border.BorderCells.Where(c => c.X == x && c.Y == y).Any()) continue;
+                if (snake.Body.Where(c => c.X == x && c.Y == y).Any()) continue;
+                if (queue.Where(c => c.X == x && c.Y == y).Any()) continue;
+
+                queue.Enqueue(new(x, y));
+            }
+
+            _ = visited.Any();
+        }
+
+        return route;
     }
 }

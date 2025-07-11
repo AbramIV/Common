@@ -14,7 +14,7 @@ Clear();
 Border border = new(WindowWidth, WindowHeight);
 Snake snake = new((WindowWidth / 2) - 5, WindowHeight / 2); // snake start position
 Feeder feeder = new(WindowWidth, WindowHeight); // cell generator
-Navigator navigator = new(new(1, 1), new(border.Width-2, border.Height-2), snake);
+Navigator navigator = new(border, snake);
 Cell food = feeder.Spawn(snake.Body);
 List<Cell>? route = navigator.Navigate(food); //.GetRoute(food);
 snake.PositionChanged += Snake_PositionChanged;
@@ -29,7 +29,7 @@ while (snake.IsAlive)
 {
     snake.Step(route[stepNumber++]);
 
-    Thread.Sleep(100);
+    Thread.Sleep(20);
 }
 
 SetCursorPosition(WindowWidth / 2 - 5, WindowHeight / 2);
