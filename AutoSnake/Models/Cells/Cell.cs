@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoSnake.Models;
+namespace AutoSnake.Models.Cells;
 
 internal class Cell
 {
@@ -20,7 +20,11 @@ internal class Cell
         View = view;
     }
 
-    internal void ChangeView(CellView view) => View = view;
+    internal Cell ChangeView(CellView view)
+    {
+        View = view;
+        return this;
+    }
 
     internal void SetPosition(int x, int y)
     {

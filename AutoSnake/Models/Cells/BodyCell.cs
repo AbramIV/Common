@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoSnake.Models;
+namespace AutoSnake.Models.Cells;
 
 internal class BodyCell : Cell
 {

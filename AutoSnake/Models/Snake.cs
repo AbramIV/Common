@@ -1,71 +1,28 @@
 ﻿using AutoSnake.Enums;
+using AutoSnake.Models.Cells;
 using System.Reflection.Metadata.Ecma335;
 
 namespace AutoSnake.Models;
 
 internal class Snake
 {
-   internal event Action PositionChanged;
+    internal event Action PositionChanged;
 
-    internal readonly BodyCell Head;
-    internal readonly Queue<BodyCell> Body;
+    internal readonly List<BodyCell> body;
 
-    internal BodyCell? Neck { get; private set; }
-    internal BodyCell? Tail { get; private set; }
-    internal Cell? Track { get; private set; }
-    internal bool IsAlive { get; private set; }
-
-    internal Snake(int x, int y)
+    internal Snake(Cell cell)
     {
-        Head = new(x, y, CellView.Head);
-        Body = new([Head]);
-        Track = new(0, 0, CellView.Empty);
-        IsAlive = true;
+        body = new([new(cell.X, cell.Y, CellView.Head)]);
     }
 
-    internal void Step(Cell cell)
+    internal void Move()
     {
-        if (Body.Where(c => c.X == cell.X && c.Y == cell.Y).Any())
-        {
-            Suicide();
-            return;
-        }
-
-        Track.SetPosition(Body.Last().X, Body.Last().Y);
-        Head.SetPosition(cell.X, cell.Y);
+        //Head.SetPosition(cell.X, cell.Y);
         PositionChanged?.Invoke();
     }
 
-    internal void Eat()
+    internal void Grow()
     {
-        if (Tail is null)
-        {
-            Tail = new(Track.X, Track.Y, CellView.Tail, Head);
-            Body.Enqueue(Tail);
 
-            return;
-        }
-
-        if (Neck is null)
-        {
-            Neck = Tail;
-            Neck.ChangeView(CellView.Body);
-        }
-
-        Tail.ChangeView(CellView.Body);
-        Tail = new(Track.X, Track.Y, CellView.Tail, Tail);
-        Body.Enqueue(Tail);
     }
-
-    internal void Suicide()
-    {
-        IsAlive = false;
-        Head.ChangeView(CellView.Break);
-    }
-}
-
-internal class PositionChangedEventArgs : EventArgs
-{
-    //internal int X { get; set; }
-    //internal int Y { get; set; }
 }
