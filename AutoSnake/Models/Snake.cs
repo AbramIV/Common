@@ -8,16 +8,20 @@ internal class Snake
 {
     internal event Action PositionChanged;
 
-    internal readonly List<BodyCell> body;
+    internal readonly List<BodyCell> Body;
+
+    internal bool IsAlive { get; private set; }
 
     internal Snake(Cell cell)
     {
-        body = new([new(cell.X, cell.Y, CellView.Head)]);
+        Body = new([new(cell.X, cell.Y, CellView.Head)]);
+        IsAlive = true;
     }
 
-    internal void Move()
+    internal void Move(Cell cell)
     {
-        //Head.SetPosition(cell.X, cell.Y);
+        Body.First().SetPosition(cell.X, cell.Y);
+
         PositionChanged?.Invoke();
     }
 
@@ -25,4 +29,8 @@ internal class Snake
     {
 
     }
+
+    internal void Die() => IsAlive = false;
+
+    internal bool Contains(Cell cell) => Body.Where(c => c.X == cell.X &&  c.Y == cell.Y).Any();
 }

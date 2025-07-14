@@ -15,11 +15,11 @@ internal static class FoodGenerator
         List<Cell> cells = [];
         int choice = 0;
 
-        for(int i=field.MinX; i < field.Width; i++)
+        for(int i=field.MinX; i < field.MaxX; i++)
         {
-            for(int j=field.MinY; j < field.Height; j++)
+            for(int j=field.MinY; j < field.MaxY; j++)
             {
-                if (snake.body.Where(c => c.X == i && c.Y == j).Any()) continue;
+                if (snake.Body.Where(c => c.X == i && c.Y == j).Any()) continue;
                 cells.Add(new(i,j));
             }
         }

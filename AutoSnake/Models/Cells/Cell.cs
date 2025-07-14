@@ -31,4 +31,9 @@ internal class Cell
         X = x;
         Y = y;
     }
+
+    public bool Equals(Cell? cell)
+    {
+        return cell is not null && (cell.X == X && cell.Y == Y);
+    }
 }

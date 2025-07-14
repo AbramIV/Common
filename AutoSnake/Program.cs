@@ -1,10 +1,4 @@
-﻿using AutoSnake.Enums;
-using AutoSnake.Models;
-using AutoSnake.Models.Cells;
-using System.Timers;
-using static System.Console;
+﻿using AutoSnake.Models;
 
 Engine engine = new();
 engine.Run();
-
-ReadKey();

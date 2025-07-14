@@ -12,7 +12,7 @@ namespace AutoSnake.Models;
 
 internal static class Drawer
 {
-    static Drawer()
+    internal static void ConsoleInit()
     {
         Title = "Snake";
         CursorVisible = false;
@@ -32,8 +32,7 @@ internal static class Drawer
     }
     internal static void EraseCell(Cell cell)
     {
-        cell.ChangeView(CellView.Empty);
-        DrawCell(cell);
+        DrawCell(new(cell.X, cell.Y, CellView.Empty));
     }
     internal static void DrawCell(Cell cell, ConsoleColor color = ConsoleColor.Gray)
     {
@@ -48,8 +47,13 @@ internal static class Drawer
 
         ForegroundColor = last;
     }
-    internal static void PrintLine(string message) => WriteLine(message);
-    internal static void Print(string message) => Write(message);
+    internal static void WriteOnCellPosition(Cell cell, string message)
+    {
+        SetCursorPosition(cell.X, cell.Y);
+        WriteLine(message);
+    }
+
+    internal static void AwaitUserInput() => ReadKey();
 
     internal static int Width => WindowWidth;
     internal static int Height => WindowHeight;
