@@ -29,8 +29,8 @@ internal class Field
 
         cells.AddRange(Enumerable.Range(0, MaxX).Select(i => new Cell(i, 0, CellView.Horizontal)));
         cells.AddRange(Enumerable.Range(0, MaxX).Select(i => new Cell(i, MaxY, CellView.Horizontal)));
-        cells.AddRange(Enumerable.Range(0, MaxY).Select(i => new Cell(0, i, CellView.Vertical)));
-        cells.AddRange(Enumerable.Range(0, MaxY).Select(i => new Cell(MaxX, i, CellView.Vertical)));
+        cells.AddRange(Enumerable.Range(0, MaxY+1).Select(i => new Cell(0, i, CellView.Vertical)));
+        cells.AddRange(Enumerable.Range(0, MaxY+1).Select(i => new Cell(MaxX, i, CellView.Vertical)));
 
         Border = [.. cells];
     }

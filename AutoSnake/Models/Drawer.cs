@@ -16,6 +16,8 @@ internal static class Drawer
     {
         Title = "Snake";
         CursorVisible = false;
+        WriteLine("Choose window size and press any button to continue...");
+        AwaitUserInput();
     }
 
     internal static void EraseCells(IEnumerable<Cell> cells)
@@ -32,6 +34,8 @@ internal static class Drawer
     }
     internal static void EraseCell(Cell cell)
     {
+        if (cell == null) return;
+
         DrawCell(new(cell.X, cell.Y, CellView.Empty));
     }
     internal static void DrawCell(Cell cell, ConsoleColor color = ConsoleColor.Gray)

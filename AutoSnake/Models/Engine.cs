@@ -11,14 +11,14 @@ internal class Engine
     private Cell food;
     private List<Cell> path;
 
-    internal Engine()
+    internal Engine(bool track)
     {
         Drawer.ConsoleInit();
         field = new(1, 1, Drawer.Width - 1, Drawer.Height - 1);
-        snake = new(new(field.MaxX/2, field.MaxY/2, CellView.Head));
+        snake = new(new(field.Center.X, field.Center.Y, CellView.Head));
         food = FoodGenerator.Generate(field, snake);
-        navigator = new(field, snake);
-
+        navigator = new(field, snake) { Track = track };
+        
         Drawer.DrawCells(field.Border, ConsoleColor.Red);
         Drawer.DrawCell(snake.Body.First(), ConsoleColor.Magenta);
         Drawer.DrawCell(food, ConsoleColor.Magenta);
@@ -32,19 +32,33 @@ internal class Engine
 
         while (snake.IsAlive)
         {
-            Thread.Sleep(50);
+            Thread.Sleep(1);
 
-            Drawer.EraseCell(snake.Body.First());
-            snake.Move(path[next++]);
-            Drawer.DrawCell(snake.Body.First(), ConsoleColor.Magenta);
+            Drawer.EraseCell(snake.Body.Last());
 
-            if (snake.Body.First().Equals(food))
+            if (path[next].Equals(food))
             {
+                snake.Grow(path[next]);
+
+                Drawer.DrawCell(snake.Head, ConsoleColor.Magenta);
+                Drawer.DrawCell(snake.Neck, ConsoleColor.Magenta);
+                Drawer.DrawCell(snake.Tail, ConsoleColor.Magenta);
+
                 food = FoodGenerator.Generate(field, snake);
                 Drawer.DrawCell(food, ConsoleColor.Magenta);
+
                 path = navigator.FindPath(food);
+
                 next = 0;
+
+                continue;
             }
+            else
+                snake.Move(path[next++]);
+
+            Drawer.DrawCell(snake.Head, ConsoleColor.Magenta);
+            Drawer.DrawCell(snake.Neck, ConsoleColor.Magenta);
+            Drawer.DrawCell(snake.Tail, ConsoleColor.Magenta);
         }
 
         Drawer.WriteOnCellPosition(field.Center, "GAME OVER");

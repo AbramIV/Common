@@ -11,15 +11,21 @@ internal class Navigator
     private readonly Snake snake;
     private readonly Field field;
     private readonly Cell[] directions;
+    internal bool Track { get; set; }
 
     internal Navigator(Field field, Snake snake)
     {
         this.snake = snake;
         this.field = field;
-        directions = [new(0, 1), new(0, -1), new(1, 0), new(-1, 0), new(1, 1), new(-1, -1), new(-1, 1), new(1, -1)];
-        //directions = [new(1, 0), new(-1, 0), new(0, 1), new(0, -1)];
+        //directions = [new(0, 1), new(0, -1), new(1, 0), new(-1, 0), new(1, 1), new(-1, -1), new(-1, 1), new(1, -1)];
+        directions = [new(1, 0), new(-1, 0), new(0, 1), new(0, -1)];
     }
 
+    /// <summary>
+    /// Shortest way by BSF algorithm.
+    /// </summary>
+    /// <param name="end">Target point.</param>
+    /// <returns>Cells from start point to target point.</returns>
     internal List<Cell> FindPath(Cell end)
     {
         List<Cell> path = [];
@@ -31,14 +37,14 @@ internal class Navigator
         {
             var vertex = queue.Dequeue();
 
-            if (visited.Where(c => c.X == vertex.X && c.Y == vertex.Y).Any()) continue;
-
-            if (!vertex.Equals(snake.Body.First()) && !vertex.Equals(end))
-                Drawer.DrawCell(vertex, ConsoleColor.Blue);
+            if (visited.Where(v => v.Equals(vertex)).Any()) continue;
 
             visited.Add(vertex);
 
             if (vertex.Equals(end)) break;
+
+            if (!vertex.Equals(snake.Body.First()) && Track)
+                Drawer.DrawCell(vertex, ConsoleColor.Blue);
 
             foreach (var direction in directions)
             {
@@ -51,15 +57,15 @@ internal class Navigator
             }
         }
 
-        var key = map.Where(kvp => kvp.Key.X == end.X && kvp.Key.Y == end.Y).FirstOrDefault().Key.ChangeView(CellView.None);
+        var key = map.Where(kvp => kvp.Key.Equals(end)).First().Key.ChangeView(CellView.None); // null check
 
-        while (true)
+        while (!key.Equals(snake.Body.First()))
         {
-            Thread.Sleep(20);
-
-            if (!key.Equals(snake.Body.First())) Drawer.DrawCell(key, ConsoleColor.White);
-
-            if (key.X == snake.Body.First().X && key.Y == snake.Body.First().Y) break;
+            if (Track)
+            {
+                Drawer.DrawCell(key, ConsoleColor.White);
+                Thread.Sleep(1);
+            }
 
             path.Add(key);
 
@@ -67,7 +73,7 @@ internal class Navigator
         }
 
         path.Reverse();
-        Drawer.DrawCells(path, ConsoleColor.Green);
+        if (Track) Drawer.DrawCells(path, ConsoleColor.Green);
 
         foreach (var v in visited)
         {
