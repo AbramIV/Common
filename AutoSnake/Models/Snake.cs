@@ -51,7 +51,11 @@ internal class Snake
         Body.Add(Tail);
     }
 
-    internal void Die() => IsAlive = false;
+    internal void Die()
+    {
+        IsAlive = false;
+        Head.ChangeView(CellView.Break);
+    }
 
     internal bool Contains(Cell cell) => Body.Where(c => c.X == cell.X &&  c.Y == cell.Y).Any();
 }

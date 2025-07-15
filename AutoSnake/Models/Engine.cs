@@ -18,12 +18,11 @@ internal class Engine
         snake = new(new(field.Center.X, field.Center.Y, CellView.Head));
         food = FoodGenerator.Generate(field, snake);
         navigator = new(field, snake) { Track = track };
-        
+        path = navigator.FindPath(food);
+
         Drawer.DrawCells(field.Border, ConsoleColor.Red);
         Drawer.DrawCell(snake.Body.First(), ConsoleColor.Magenta);
         Drawer.DrawCell(food, ConsoleColor.Magenta);
-
-        path = navigator.FindPath(food);
     }
 
     internal void Run()
@@ -33,25 +32,17 @@ internal class Engine
         while (snake.IsAlive)
         {
             Thread.Sleep(1);
-
             Drawer.EraseCell(snake.Body.Last());
 
             if (path[next].Equals(food))
             {
                 snake.Grow(path[next]);
-
-                Drawer.DrawCell(snake.Head, ConsoleColor.Magenta);
-                Drawer.DrawCell(snake.Neck, ConsoleColor.Magenta);
-                Drawer.DrawCell(snake.Tail, ConsoleColor.Magenta);
-
                 food = FoodGenerator.Generate(field, snake);
                 Drawer.DrawCell(food, ConsoleColor.Magenta);
-
                 path = navigator.FindPath(food);
-
                 next = 0;
 
-                continue;
+                if (path.Count == 0) snake.Die();
             }
             else
                 snake.Move(path[next++]);

@@ -1,8 +1,9 @@
 ﻿using AutoSnake.Enums;
 using AutoSnake.Models.Cells;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.CompilerServices;
 
 namespace AutoSnake.Models;
 
@@ -30,12 +31,12 @@ internal class Navigator
     {
         List<Cell> path = [];
         List<Cell> visited = [];
-        Queue<Cell> queue = new([snake.Body.First()]);
-        Dictionary<Cell, Cell?> map = new() { { snake.Body.First(), null } };
+        Queue<Cell> queue = new([snake.Head]);
+        Dictionary<Cell, Cell?> map = new() { { snake.Head, null } };
 
         while (queue.Count > 0)
         {
-            var vertex = queue.Dequeue();
+            Cell vertex = queue.Dequeue();
 
             if (visited.Where(v => v.Equals(vertex)).Any()) continue;
 
@@ -43,7 +44,7 @@ internal class Navigator
 
             if (vertex.Equals(end)) break;
 
-            if (!vertex.Equals(snake.Body.First()) && Track)
+            if (!vertex.Equals(snake.Head) && Track)
                 Drawer.DrawCell(vertex, ConsoleColor.Blue);
 
             foreach (var direction in directions)
@@ -51,38 +52,43 @@ internal class Navigator
                 Cell neighbor = new(vertex.X + direction.X, vertex.Y + direction.Y, CellView.Path);
 
                 if (field.BorderContains(neighbor) || snake.Contains(neighbor)) continue;
+                if (queue.Where(c => c.Equals(neighbor)).Any()) continue;
 
                 queue.Enqueue(neighbor);
                 map.Add(neighbor, vertex);
             }
         }
 
-        var key = map.Where(kvp => kvp.Key.Equals(end)).First().Key.ChangeView(CellView.None); // null check
+        if (!map.Where(kvp => kvp.Key.Equals(end)).Any()) return path;
+        var key = map.Where(kvp => kvp.Key.Equals(end)).First().Key;
 
-        while (!key.Equals(snake.Body.First()))
+        while (!key.Equals(snake.Head))
         {
-            if (Track)
-            {
+            if (Track && !key.Equals(end))
                 Drawer.DrawCell(key, ConsoleColor.White);
-                Thread.Sleep(1);
-            }
 
             path.Add(key);
-
             key = map[key];
         }
 
         path.Reverse();
-        if (Track) Drawer.DrawCells(path, ConsoleColor.Green);
 
-        foreach (var v in visited)
-        {
-            if (v.Equals(snake.Body.First()) || v.Equals(end) || path.Where(c => c.Equals(v)).Any())
-                continue;
+        if (Track)
+        { 
+            foreach (var v in visited)
+            {
+                if (v.Equals(snake.Head) || v.Equals(end) || path.Where(c => c.Equals(v)).Any())
+                    continue;
 
-            Drawer.EraseCell(v);
+                Drawer.EraseCell(v);
+            }
         }
 
         return path;
+    }
+
+    internal Cell FindFreeCell()
+    {
+        return snake.Head;
     }
 }
