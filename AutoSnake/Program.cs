@@ -1,4 +1,2 @@
-﻿using AutoSnake.Models;
-
-Engine engine = new(false);
+﻿AutoSnake.Models.Engine engine = new(false);
 engine.Run();
