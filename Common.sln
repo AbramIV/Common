@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{FD6C2AC0-2D1F-438F-94DB-24B52841D513}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise", "TrainingTasksExecutor\Exercise.csproj", "{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CommonLib\CommonLib.csproj", "{E597172A-963A-4425-80DF-09B035C266B1}"
@@ -27,16 +25,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "StatLib\Calcu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSnake", "AutoSnake\AutoSnake.csproj", "{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{5D7A1C22-8DC4-44D2-9A9F-C8D728B6B172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServer", "HttpServer\HttpServer.csproj", "{FC8E5330-4D84-4398-B213-399AFE6B2BBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FD6C2AC0-2D1F-438F-94DB-24B52841D513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD6C2AC0-2D1F-438F-94DB-24B52841D513}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD6C2AC0-2D1F-438F-94DB-24B52841D513}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD6C2AC0-2D1F-438F-94DB-24B52841D513}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2335471D-4F60-40D1-8CC5-1C54DA5A84BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +79,14 @@ Global
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA778A97-998A-4DD9-886F-1E2F8ED79DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7A1C22-8DC4-44D2-9A9F-C8D728B6B172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7A1C22-8DC4-44D2-9A9F-C8D728B6B172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7A1C22-8DC4-44D2-9A9F-C8D728B6B172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7A1C22-8DC4-44D2-9A9F-C8D728B6B172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8E5330-4D84-4398-B213-399AFE6B2BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8E5330-4D84-4398-B213-399AFE6B2BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8E5330-4D84-4398-B213-399AFE6B2BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8E5330-4D84-4398-B213-399AFE6B2BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
