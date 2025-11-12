@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Exercise;
+using System;
 
 Console.Title = "Exercises";
 Console.ForegroundColor = ConsoleColor.Green;
 
-int num = 1;
-Console.WriteLine($"0b{num:b}");
+CancellationTokenSource cts = new();
+var token = cts.Token;
+token.Register(() => Console.WriteLine("Operation cancelled."));
 
-int result = num << 2;
-Console.WriteLine($"0b{result:b}");
+Console.WriteLine("Start async operation...");
+var result = Exercises.GetRequestAsync("https://template.postman-echo.com/info?id=1", token);
+
+Thread.Sleep(1000);
+
+//Console.WriteLine("Canceling operation...");
+//cts.Cancel();
 
 Console.WriteLine("\nDone!");
 

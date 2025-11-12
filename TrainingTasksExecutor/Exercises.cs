@@ -223,6 +223,19 @@ internal class Exercises
         return result;
     }
 
+    #region async
+    internal static async Task<string> GetRequestAsync(string url, CancellationToken token)
+    {
+        await Task.Delay(5000, token); // simulate some delay
+        using HttpClient client = new();
+        HttpResponseMessage response = await client.GetAsync(url, token);
+        response.EnsureSuccessStatusCode();
+        string content = await response.Content.ReadAsStringAsync(token);
+        WriteLine($"\nResponse: {content}\n");
+        return content;
+    }
+    #endregion
+
     #region principals
 
     internal static void ActionCallig()
